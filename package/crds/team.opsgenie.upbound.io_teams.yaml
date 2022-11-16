@@ -5,18 +5,18 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: resources.null.template.upbound.io
+  name: teams.team.opsgenie.upbound.io
 spec:
-  group: null.template.upbound.io
+  group: team.opsgenie.upbound.io
   names:
     categories:
     - crossplane
     - managed
-    - template
-    kind: Resource
-    listKind: ResourceList
-    plural: resources
-    singular: resource
+    - opsgenie
+    kind: Team
+    listKind: TeamList
+    plural: teams
+    singular: team
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,7 +35,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Resource is the Schema for the Resources API. <no value>
+        description: Team is the Schema for the Teams API. Manages a Team within Opsgenie.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -50,7 +50,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: ResourceSpec defines the desired state of Resource
+            description: TeamSpec defines the desired state of Team
             properties:
               deletionPolicy:
                 default: Delete
@@ -63,13 +63,43 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  triggers:
-                    additionalProperties:
-                      type: string
-                    description: A map of arbitrary strings that, when changed, will
-                      force the null resource to be replaced, re-running any associated
-                      provisioners.
-                    type: object
+                  deleteDefaultResources:
+                    description: Set to true to remove default escalation and schedule
+                      for newly created team. Be careful its also changes that team
+                      routing rule to None. That means you have to define routing
+                      rule as well
+                    type: boolean
+                  description:
+                    description: A description for this team.
+                    type: string
+                  ignoreMembers:
+                    description: 'Set to true to ignore any configured member blocks
+                      and any team member added/updated/removed via OpsGenie web UI.
+                      Use this option e.g. to maintain membership via web UI only
+                      and use it only for new teams. Changing the value for existing
+                      teams might lead to strange behaviour. Default: false.'
+                    type: boolean
+                  member:
+                    description: A Member block as documented below.
+                    items:
+                      properties:
+                        id:
+                          description: The UUID for the member to add to this Team.
+                          type: string
+                        role:
+                          description: 'The role for the user within the Team - can
+                            be either admin or user. Default: user.'
+                          type: string
+                      required:
+                      - id
+                      type: object
+                    type: array
+                  name:
+                    description: The name associated with this team. Opsgenie defines
+                      that this must not be longer than 100 characters.
+                    type: string
+                required:
+                - name
                 type: object
               providerConfigRef:
                 default:
@@ -243,11 +273,12 @@ spec:
             - forProvider
             type: object
           status:
-            description: ResourceStatus defines the observed state of Resource.
+            description: TeamStatus defines the observed state of Team.
             properties:
               atProvider:
                 properties:
                   id:
+                    description: The UUID for the member to add to this Team.
                     type: string
                 type: object
               conditions:
