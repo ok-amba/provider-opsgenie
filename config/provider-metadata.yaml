@@ -1,2 +1,1214 @@
-name: hashicorp/null
-resources: {}
+name: opsgenie/opsgenie
+resources:
+    opsgenie_alert_policy:
+        subCategory: ""
+        description: Manages a Alert Policy within Opsgenie.
+        name: opsgenie_alert_policy
+        title: opsgenie_alert_policy
+        examples:
+            - name: test
+              manifest: |-
+                {
+                  "filter": [
+                    {}
+                  ],
+                  "message": "{{message}}",
+                  "name": "example policy",
+                  "policy_description": "This is sample policy",
+                  "team_id": "${opsgenie_team.test.id}",
+                  "time_restriction": [
+                    {
+                      "restrictions": [
+                        {
+                          "end_day": "monday",
+                          "end_hour": 7,
+                          "end_min": 0,
+                          "start_day": "sunday",
+                          "start_hour": 21,
+                          "start_min": 0
+                        },
+                        {
+                          "end_day": "tuesday",
+                          "end_hour": 7,
+                          "end_min": 0,
+                          "start_day": "monday",
+                          "start_hour": 22,
+                          "start_min": 0
+                        }
+                      ],
+                      "type": "weekday-and-time-of-day"
+                    }
+                  ]
+                }
+              references:
+                team_id: opsgenie_team.test.id
+              dependencies:
+                opsgenie_team.test: |-
+                    {
+                      "description": "This team deals with all the things",
+                      "name": "example team"
+                    }
+        argumentDocs:
+            actions: '- (Optional) Actions to add to the alerts original actions value as a list of strings. If ignore_original_actions field is set to true, this will replace the original actions.'
+            alert_description: '- (Optional) Description of the alert. You can use {{description}} to refer to the original alert description. Default: {{description}}'
+            alias: '- (Optional) Alias of the alert. You can use {{alias}} to refer to the original alias. Default: {{alias}}'
+            conditions.expected_value: '- (Optional) User defined value that will be compared with alert field according to the operation. Default: empty string'
+            conditions.field: '- (Required) Specifies which alert field will be used in condition. Possible values are message, alias, description, source, entity, tags, actions, details, extra-properties, responders, teams, priority'
+            conditions.key: '- (Optional) If field is set as extra-properties, key could be used for key-value pair'
+            conditions.not: '- (Optional) Indicates behaviour of the given operation. Default: false'
+            conditions.operation: '- (Required) It is the operation that will be executed for the given field and key. Possible operations are matches, contains, starts-with, ends-with, equals, contains-key, contains-value, greater-than, less-than, is-empty, equals-ignore-whitespace.'
+            conditions.order: '- (Optional) Order of the condition in conditions list'
+            continue_policy: '- (Optional) It will trigger other modify policies if set to true. Default: false'
+            enabled: '- (Optional) If policy should be enabled. Default: true'
+            entity: '- (Optional) Entity field of the alert. You can use {{entity}} to refer to the original entity. Default: {{entity}}'
+            filter: '- (Required) A alert filter which will be applied. This filter can be empty: filter {} - this means match-all. This is a block, structure is documented below.'
+            filter.conditions: (Optional) Conditions applied to filter. This is a block, structure is documented below.
+            filter.type: '(Optional) - A filter type, supported types are: match-all, match-any-condition, match-all-conditions. Default: match-all'
+            id: '- The ID of the Opsgenie Alert Policy.'
+            ignore_original_actions: '- (Optional) If set to true, policy will ignore the original actions of the alert. Default: false'
+            ignore_original_details: '- (Optional) If set to true, policy will ignore the original details of the alert. Default: false'
+            ignore_original_responders: '- (Optional) If set to true, policy will ignore the original responders of the alert. Default: false'
+            ignore_original_tags: '- (Optional) If set to true, policy will ignore the original tags of the alert. Default: false'
+            message: '- (Required) Message of the alerts'
+            name: '- (Required) Name of the alert policy'
+            policy_description: '- (Optional) Description of the policy. This can be max 512 characters.'
+            priority: '- (Optional) Priority of the alert. Should be one of P1, P2, P3, P4, or P5'
+            responders: '- (Optional) Responders to add to the alerts original responders value as a list of teams, users or the reserved word none or all. If ignore_original_responders field is set to true, this will replace the original responders. The possible values for responders are: user, team. This is a block, structure is documented below.'
+            responders.id: '- (Required) ID of the responder'
+            responders.name: '- (Optional) Name of the responder'
+            responders.type: '- (Required) Type of responder. Acceptable values are: user or team'
+            responders.username: '- (Optional) Username of the responder'
+            restriction.end_hour: '- (Required) Ending hour of restriction.'
+            restriction.end_min: '- (Required) Ending minute of restriction on defined end_hour'
+            restriction.start_hour: '- (Required) Starting hour of restriction.'
+            restriction.start_min: '- (Required) Staring minute of restriction on defined start_hour'
+            restrictions.end_day: '- (Required) Ending day of restriction (eg. wednesday)'
+            restrictions.end_hour: '- (Required) Ending hour of restriction on defined end_day'
+            restrictions.end_min: '- (Required) Ending minute of restriction on defined end_hour'
+            restrictions.start_day: '- (Required) Starting day of restriction (eg. monday)'
+            restrictions.start_hour: '- (Required) Starting hour of restriction on defined start_day'
+            restrictions.start_min: '- (Required) Staring minute of restriction on defined start_hour'
+            source: '- (Optional) Source field of the alert. You can use {{source}} to refer to the original source. Default: {{source}}'
+            tags: '- (Optional) Tags to add to the alerts original tags value as a list of strings. If ignore_original_responders field is set to true, this will replace the original responders.'
+            team_id: '- (Optional) Id of team that this policy belongs to.'
+            time_restriction: '- (Optional) Time restrictions specified in this field must be met for this policy to work. This is a block, structure is documented below.'
+            time_restriction.restriction: '- (Optional) A definition of hourly definition applied daily, this has to be used with combination: type = time-of-day. This is a block, structure is documented below.'
+            time_restriction.restrictions: '- (Optional) List of days and hours definitions for field type = weekday-and-time-of-day. This is a block, structure is documented below.'
+            time_restriction.type: '- (Required) Defines if restriction should apply daily on given hours or on certain days and hours. Possible values are: time-of-day, weekday-and-time-of-day'
+        importStatements: []
+    opsgenie_api_integration:
+        subCategory: ""
+        description: Manages an API Integration within Opsgenie.
+        name: opsgenie_api_integration
+        title: opsgenie_api_integration
+        examples:
+            - name: example-api-integration
+              manifest: |-
+                {
+                  "name": "api-based-int",
+                  "responders": [
+                    {
+                      "id": "${opsgenie_user.user.id}",
+                      "type": "user"
+                    },
+                    {
+                      "id": "${opsgenie_user.fahri.id}",
+                      "type": "user"
+                    }
+                  ],
+                  "type": "API"
+                }
+            - name: example-api-integration
+              manifest: |-
+                {
+                  "allow_write_access": false,
+                  "enabled": false,
+                  "ignore_responders_from_payload": true,
+                  "name": "api-based-int-2",
+                  "owner_team_id": "${opsgenie_team.team.id}",
+                  "responders": [
+                    {
+                      "id": "${opsgenie_user.user.id}",
+                      "type": "user"
+                    }
+                  ],
+                  "suppress_notifications": true,
+                  "type": "Prometheus"
+                }
+            - name: test3
+              manifest: |-
+                {
+                  "allow_write_access": false,
+                  "enabled": false,
+                  "headers": {
+                    "header1": "${value1}"
+                  },
+                  "name": "webhook-int",
+                  "responders": [
+                    {
+                      "id": "${opsgenie_user.user.id}",
+                      "type": "user"
+                    }
+                  ],
+                  "suppress_notifications": true,
+                  "type": "Webhook",
+                  "webhook_url": "https://api.example.com/v1"
+                }
+        argumentDocs:
+            allow_write_access: '- (Optional) This parameter is for configuring the write access of integration. If write access is restricted, the integration will not be authorized to write within any domain. Default: true.'
+            api_key: '- (Computed) API key of the created integration'
+            enabled: '- (Optional) This parameter is for specifying whether the integration will be enabled or not. Default: true'
+            id: '- (Required) The id of the responder.'
+            ignore_responders_from_payload: '- (Optional) If enabled, the integration will ignore recipients sent in request payloads. Default: false.'
+            name: '- (Required) Name of the integration. Name must be unique for each integration.'
+            owner_team_id: '- (Optional) Owner team id of the integration.'
+            responders: '- (Optional)  User, schedule, teams or escalation names to calculate which users will receive the notifications of the alert.'
+            suppress_notifications: '- (Optional) If enabled, notifications that come from alerts will be suppressed. Default: false.'
+            type: '- (Optional) Type of the integration (API, Marid, Prometheus, etc). The full list of options can be found here.'
+            webhook_url: '- (Optional) It is required if type is Webhook. This is the url Opsgenie will be sending request to.'
+        importStatements: []
+    opsgenie_custom_role:
+        subCategory: ""
+        description: Manages custom user roles within Opsgenie.
+        name: opsgenie_custom_role
+        title: opsgenie_custom_role
+        examples:
+            - name: test
+              manifest: |-
+                {
+                  "disallowed_rights": [
+                    "profile-edit",
+                    "contacts-edit"
+                  ],
+                  "extended_role": "user",
+                  "granted_rights": [
+                    "alert-delete"
+                  ],
+                  "role_name": "genierole"
+                }
+        argumentDocs:
+            disallowed_rights: '- (Optional) The rights this role cannot have. For allowed values please refer User Right Prerequisites'
+            extended_role: '- (Required) The role from which this role has been derived. Allowed Values: "user", "observer", "stakeholder".'
+            granted_rights: '- (Optional) The rights granted to this role. For allowed values please refer User Right Prerequisites'
+            role_name: '- (Required) Name of the custom role.'
+        importStatements: []
+    opsgenie_email_integration:
+        subCategory: ""
+        description: Manages an Email Integration within Opsgenie.
+        name: opsgenie_email_integration
+        title: opsgenie_email_integration
+        examples:
+            - name: test
+              manifest: |-
+                {
+                  "email_username": "fahri",
+                  "name": "genieintegration-name"
+                }
+            - name: test
+              manifest: |-
+                {
+                  "email_username": "test",
+                  "enabled": true,
+                  "ignore_responders_from_payload": true,
+                  "name": "genieintegration-%s",
+                  "responders": [
+                    {
+                      "id": "${opsgenie_user.test.id}",
+                      "type": "user"
+                    },
+                    {
+                      "id": "${opsgenie_schedule.test.id}",
+                      "type": "schedule"
+                    },
+                    {
+                      "id": "${opsgenie_escalation.test.id}",
+                      "type": "escalation"
+                    },
+                    {
+                      "id": "${opsgenie_team.test2.id}",
+                      "type": "team"
+                    }
+                  ],
+                  "suppress_notifications": true
+                }
+            - name: test
+              manifest: |-
+                {
+                  "email_username": "test",
+                  "enabled": true,
+                  "ignore_responders_from_payload": true,
+                  "name": "genieintegration-%s",
+                  "owner_team_id": "${opsgenie_team_genies.id}",
+                  "responders": [
+                    {
+                      "id": "${opsgenie_user.test.id}",
+                      "type": "user"
+                    }
+                  ],
+                  "suppress_notifications": true
+                }
+        argumentDocs:
+            email_username: '- (Required) The username part of the email address. It must be unique for each integration.'
+            enabled: '- (Optional) A Member block as documented below.'
+            id: '- (Required) The id of the responder.'
+            ignore_responders_from_payload: '- (Optional) If enabled, the integration will ignore recipients sent in request payloads. Default: false.'
+            name: '- (Required) Name of the integration. Name must be unique for each integration.'
+            owner_team_id: '- (Optional) Owner team id of the integration.'
+            responder: '- (Optional) User, schedule, teams or escalation names to calculate which users will receive the notifications of the alert.'
+            suppress_notifications: '- (Optional) If enabled, notifications that come from alerts will be suppressed. Default: false.'
+            type: '- (Required) The responder type.'
+        importStatements: []
+    opsgenie_escalation:
+        subCategory: ""
+        description: Manages an Escalation within Opsgenie.
+        name: opsgenie_escalation
+        title: opsgenie_escalation
+        examples:
+            - name: test
+              manifest: |-
+                {
+                  "name": "genieescalation-%s",
+                  "rules": [
+                    {
+                      "condition": "if-not-acked",
+                      "delay": 1,
+                      "notify_type": "default",
+                      "recipient": [
+                        {
+                          "id": "${opsgenie_user.test.id}",
+                          "type": "user"
+                        }
+                      ]
+                    }
+                  ]
+                }
+            - name: test
+              manifest: |-
+                {
+                  "description": "test",
+                  "name": "genieescalation-%s",
+                  "owner_team_id": "${opsgenie_team.test.id}",
+                  "repeat": [
+                    {
+                      "close_alert_after_all": false,
+                      "count": 1,
+                      "reset_recipient_states": true,
+                      "wait_interval": 10
+                    }
+                  ],
+                  "rules": [
+                    {
+                      "condition": "if-not-acked",
+                      "delay": 1,
+                      "notify_type": "default",
+                      "recipient": [
+                        {
+                          "id": "${opsgenie_user.test.id}",
+                          "type": "user"
+                        },
+                        {
+                          "id": "${opsgenie_team.test.id}",
+                          "type": "team"
+                        },
+                        {
+                          "id": "${opsgenie_schedule.test.id}",
+                          "type": "schedule"
+                        }
+                      ]
+                    }
+                  ]
+                }
+        argumentDocs:
+            admins: ': admins of the team'
+            all: ': all members of the team'
+            condition: '- (Required) The condition for notifying the recipient of escalation rule that is based on the alert state. Possible values are: if-not-acked and if-not-closed. Default: if-not-acked'
+            default: ': on call users'
+            delay: '- (Required) Time delay of the escalation rule, in minutes.'
+            description: '- (Optional) Description of the escalation.'
+            id: '- The ID of the Opsgenie Escalation.'
+            name: '- (Required) Name of the escalation.'
+            next: ': next users in rotation'
+            notify_type: '- (Required) Recipient calculation logic for schedules. Possible values are:'
+            owner_team_id: '- (Optional) Owner team id of the escalation.'
+            previous: ': previous users on rotation'
+            recipient: '- (Required) Object of schedule, team, or users which will be notified in escalation. The possible values for participants are: user, schedule, team.'
+            repeat: '- (Optional) Repeat preferences of the escalation including repeat interval, count, reverting acknowledge and seen states back and closing an alert automatically as soon as repeats are completed'
+            rules: '- (Required) List of the escalation rules.'
+            users: ': users of the team'
+        importStatements: []
+    opsgenie_heartbeat:
+        subCategory: ""
+        description: Manages Heartbeat within Opsgenie.
+        name: opsgenie_heartbeat
+        title: opsgenie_heartbeat
+        examples:
+            - name: test
+              manifest: |-
+                {
+                  "alert_message": "Test",
+                  "alert_priority": "P3",
+                  "alert_tags": [
+                    "test",
+                    "fahri"
+                  ],
+                  "description": "test opsgenie heartbeat terraform",
+                  "enabled": false,
+                  "interval": 10,
+                  "interval_unit": "minutes",
+                  "name": "genieheartbeat-test",
+                  "owner_team_id": "${opsgenie_team.test.id}"
+                }
+        argumentDocs:
+            alert_message: '- (Optional) Specifies the alert message for heartbeat expiration alert. If this is not provided, default alert message is "HeartbeatName is expired".'
+            alert_priority: '- (Optional) Specifies the alert priority for heartbeat expiration alert. If this is not provided, default priority is P3.'
+            alert_tags: '- (Optional)  Specifies the alert tags for heartbeat expiration alert.'
+            description: '- (Optional) An optional description of the heartbeat'
+            enabled: '- (True) Enable/disable heartbeat monitoring.'
+            interval: '- (Required) Specifies how often a heartbeat message should be expected.'
+            interval_unit: '- (Required) Interval specified as minutes, hours or days.'
+            name: '- (Required) Name of the heartbeat'
+            owner_team_id: '- (Optional) Owner team of the heartbeat.'
+        importStatements: []
+    opsgenie_incident_template:
+        subCategory: ""
+        description: Manages an Incident Template within Opsgenie.
+        name: opsgenie_incident_template
+        title: opsgenie_incident_template
+        examples:
+            - name: test
+              manifest: |-
+                {
+                  "description": "Incident Description",
+                  "details": {
+                    "key1": "value1",
+                    "key2": "value2"
+                  },
+                  "impacted_services": [
+                    "${opsgenie_service.test.id}"
+                  ],
+                  "message": "Incident Message",
+                  "name": "genietest-incident-template",
+                  "priority": "P2",
+                  "stakeholder_properties": [
+                    {
+                      "description": "Stakeholder Description",
+                      "enable": true,
+                      "message": "Stakeholder Message"
+                    }
+                  ],
+                  "tags": [
+                    "tag1",
+                    "tag2"
+                  ]
+                }
+              dependencies:
+                opsgenie_service.test: |-
+                    {
+                      "name": "genietest-service",
+                      "team_id": "${opsgenie_team.test.id}"
+                    }
+                opsgenie_team.test: |-
+                    {
+                      "description": "This team deals with all the things",
+                      "name": "genietest-team"
+                    }
+        argumentDocs:
+            description: (Optional) Description field of the incident template. This field must not be longer than 10000 characters.
+            details: (Optional) Map of key-value pairs to use as custom properties of the incident template. This field must not be longer than 8000 characters.
+            enable: (Optional) Option to enable stakeholder notifications.Default value is true.
+            id: '- The ID of the Opsgenie Incident Template.'
+            impactedServices: (Optional) Impacted services of incident template. Maximum 20 services.
+            message: (Required) Message of the related incident template. This field must not be longer than 130 characters.
+            name: (Required) Name of the incident template.
+            priority: (Required) Priority level of the incident. Possible values are P1, P2, P3, P4 and P5.
+            stakeholderProperties: (Required)
+            tags: (Optional) Tags of the incident template.
+        importStatements: []
+    opsgenie_integration_action:
+        subCategory: ""
+        description: Manages advanced actions for integrations within Opsgenie
+        name: opsgenie_integration_action
+        title: opsgenie_integration_action
+        examples:
+            - name: test_action
+              manifest: |-
+                {
+                  "acknowledge": [
+                    {
+                      "filter": [
+                        {
+                          "conditions": [
+                            {
+                              "expected_value": "TEST",
+                              "field": "message",
+                              "not": true,
+                              "operation": "contains"
+                            },
+                            {
+                              "expected_value": "P5",
+                              "field": "priority",
+                              "operation": "equals"
+                            }
+                          ],
+                          "type": "match-all-conditions"
+                        }
+                      ],
+                      "name": "Auto-ack test alerts"
+                    }
+                  ],
+                  "add_note": [
+                    {
+                      "filter": [
+                        {
+                          "type": "match-all"
+                        }
+                      ],
+                      "name": "Add note to all alerts",
+                      "note": "Created from test integration"
+                    }
+                  ],
+                  "close": [
+                    {
+                      "filter": [
+                        {
+                          "conditions": [
+                            {
+                              "expected_value": "P5",
+                              "field": "priority",
+                              "operation": "equals"
+                            },
+                            {
+                              "expected_value": "DEBUG",
+                              "field": "message",
+                              "operation": "contains"
+                            }
+                          ],
+                          "type": "match-any-condition"
+                        }
+                      ],
+                      "name": "Low priority alerts"
+                    }
+                  ],
+                  "create": [
+                    {
+                      "alert_actions": [
+                        "Runbook ID#342"
+                      ],
+                      "alias": "{{alias}}",
+                      "description": "{{description}}",
+                      "entity": "{{entity}}",
+                      "filter": [
+                        {
+                          "conditions": [
+                            {
+                              "expected_value": "P1",
+                              "field": "priority",
+                              "operation": "equals"
+                            }
+                          ],
+                          "type": "match-all-conditions"
+                        }
+                      ],
+                      "message": "{{message}}",
+                      "name": "create action",
+                      "note": "{{note}}",
+                      "responders": [
+                        {
+                          "id": "${opsgenie_team.test.id}",
+                          "type": "team"
+                        }
+                      ],
+                      "source": "{{source}}",
+                      "tags": [
+                        "CRITICAL",
+                        "SEV-0"
+                      ],
+                      "user": "Example-service"
+                    },
+                    {
+                      "filter": [
+                        {
+                          "conditions": [
+                            {
+                              "expected_value": "P2",
+                              "field": "priority",
+                              "operation": "equals"
+                            }
+                          ],
+                          "type": "match-all-conditions"
+                        }
+                      ],
+                      "name": "Create medium priority alerts",
+                      "priority": "P3",
+                      "tags": [
+                        "SEVERE",
+                        "SEV-1"
+                      ]
+                    },
+                    {
+                      "custom_priority": "{{message.substringAfter(\"[custom]\")}}",
+                      "filter": [
+                        {
+                          "conditions": [
+                            {
+                              "expected_value": "P5",
+                              "field": "tags",
+                              "operation": "contains"
+                            },
+                            {
+                              "expected_value": "[custom]",
+                              "field": "message",
+                              "operation": "starts-with"
+                            }
+                          ],
+                          "type": "match-all-conditions"
+                        }
+                      ],
+                      "name": "Create alert with priority from message"
+                    }
+                  ],
+                  "ignore": [
+                    {
+                      "filter": [
+                        {
+                          "conditions": [
+                            {
+                              "expected_value": "ignore",
+                              "field": "tags",
+                              "operation": "contains"
+                            }
+                          ],
+                          "type": "match-all-conditions"
+                        }
+                      ],
+                      "name": "Ignore alerts with ignore tag"
+                    }
+                  ],
+                  "integration_id": "${opsgenie_api_integration.test.id}"
+                }
+              references:
+                integration_id: opsgenie_api_integration.test.id
+        argumentDocs:
+            actions: ', alias, entity, Message, recipients, responders, Subject, tags, teams, eventType, Timestamp, TopicArn.'
+            alias: '- (Optional) An identifier that is used for alert deduplication. Default: {{alias}}.'
+            custom_priority: '- (Optional) Custom alert priority. e.g. {{message.substring(0,2)}}'
+            description: '- (Optional)  Detailed description of the alert, anything that may not have fit in the message field.'
+            entity: '- (Optional) The entity the alert is related to.'
+            extra_properties: '- (Optional) Set of user defined properties specified as a map.'
+            filter: '- (Optional) Used to specify rules for matching alerts and the filter type. Please note that depending on the integration type the field names in the filter conditions are:'
+            from_address: ', from_name, conversationSubject, subject'
+            id: '- (Required) The id of the responder.'
+            ignore_responders_from_payload: '- (Optional) If enabled, the integration will ignore responders sent in request payloads.'
+            ignore_teams_from_payload: '- (Optional) If enabled, the integration will ignore teams sent in request payloads.'
+            integration_id: '- (Required) ID of the parent integration resource to bind to.'
+            message: ', alias, description, source, entity, tags, actions, details, extra-properties, recipients, teams, priority, eventType.'
+            name: '- (Required) Name of the integration action.'
+            note: '- (Optional) Additional alert action note.'
+            order: '- (Optional) Integer value that defines in which order the action will be performed. Default: 1.'
+            priority: '- (Optional) Alert priority.'
+            responders: '- (Optional) User, schedule, teams or escalation names to calculate which users will receive notifications of the alert.'
+            source: '- (Optional) User defined field to specify source of action.'
+            tags: '- (Optional) Comma separated list of labels to be attached to the alert.'
+            type: '- (Required) The responder type - can be escalation, team or user.'
+            user: '- (Optional) Owner of the execution for integration action.'
+        importStatements: []
+    opsgenie_maintenance:
+        subCategory: ""
+        description: Manages a Maintenance within Opsgenie.
+        name: opsgenie_maintenance
+        title: opsgenie_maintenance
+        examples:
+            - name: test
+              manifest: |-
+                {
+                  "description": "geniemaintenance-%s",
+                  "rules": [
+                    {}
+                  ],
+                  "time": [
+                    {
+                      "end_date": "2019-06-20T17:50:00Z",
+                      "start_date": "2019-06-20T17:45:00Z",
+                      "type": "schedule"
+                    }
+                  ]
+                }
+            - name: test
+              manifest: |-
+                {
+                  "description": "geniemaintenance-%s",
+                  "rules": [
+                    {
+                      "entity": [
+                        {
+                          "id": "${opsgenie_email_integration.test.id}",
+                          "type": "integration"
+                        }
+                      ],
+                      "state": "enabled"
+                    }
+                  ],
+                  "time": [
+                    {
+                      "end_date": "2019-06-%dT17:50:00Z",
+                      "start_date": "2019-06-20T17:45:00Z",
+                      "type": "schedule"
+                    }
+                  ]
+                }
+        argumentDocs:
+            description: '- (Optional) Description for the maintenance.'
+            end_date: '- (Required) This parameter takes a date format as (yyyy-MM-dd''T''HH:mm:ssZ) (e.g. 2019-06-11T08:00:00+02:00).'
+            entity: '- (Required) This field represents the entity that maintenance will be applied. Entity field takes two mandatory fields as id and type.'
+            id: '- (Required) The id of the entity that maintenance will be applied.'
+            rules: '- (Required) Rules of maintenance, which takes a list of rule objects and defines the maintenance rules over integrations and policies.'
+            start_date: '- (Required) This parameter takes a date format as (yyyy-MM-dd''T''HH:mm:ssZ) (e.g. 2019-06-11T08:00:00+02:00).'
+            state: '- (Required) State of rule that will be defined in maintenance and can take either enabled or disabled for policy type rules. This field has to be disabled for integration type entity rules.'
+            time: '- (Required) Time configuration of maintenance. It takes a time object which has type, startDate and endDate fields'
+            type: '- (Required) This parameter defines when the maintenance will be active. It can take one of for-5-minutes, for-30-minutes, for-1-hour, indefinitely or schedule.'
+        importStatements: []
+    opsgenie_notification_policy:
+        subCategory: ""
+        description: Manages a Notification Policy within Opsgenie.
+        name: opsgenie_notification_policy
+        title: opsgenie_notification_policy
+        examples:
+            - name: test
+              manifest: |-
+                {
+                  "delay_action": [
+                    {
+                      "delay_option": "next-time",
+                      "until_hour": 9,
+                      "until_minute": 1
+                    }
+                  ],
+                  "filter": [
+                    {}
+                  ],
+                  "name": "example policy",
+                  "policy_description": "This policy has a delay action",
+                  "team_id": "${opsgenie_team.test.id}"
+                }
+              references:
+                team_id: opsgenie_team.test.id
+              dependencies:
+                opsgenie_team.test: |-
+                    {
+                      "description": "This team deals with all the things",
+                      "name": "example team"
+                    }
+        argumentDocs:
+            auto_close_action: '- (Optional) Auto Restart Action of the policy. This is a block, structure is documented below.'
+            auto_close_action.duration: '- (Required) Duration of this action. This is a block, structure is documented below.'
+            auto_restart_action: '- (Optional) Auto Restart Action of the policy. This is a block, structure is documented below.'
+            auto_restart_action.duration: '- (Required) Duration of this action. This is a block, structure is documented below.'
+            auto_restart_action.max_repeat_count: '- (Required) How many times to repeat. This is a integer attribute.'
+            conditions.expected_value: '- (Optional) User defined value that will be compared with alert field according to the operation. Default: empty string'
+            conditions.field: '- (Required) Specifies which alert field will be used in condition. Possible values are message, alias, description, source, entity, tags, actions, details, extra-properties, responders, teams, priority'
+            conditions.key: '- (Optional) If field is set as extra-properties, key could be used for key-value pair'
+            conditions.not: '- (Optional) Indicates behaviour of the given operation. Default: false'
+            conditions.operation: '- (Required) It is the operation that will be executed for the given field and key. Possible operations are matches, contains, starts-with, ends-with, equals, contains-key, contains-value, greater-than, less-than, is-empty, equals-ignore-whitespace.'
+            conditions.order: '- (Optional) Order of the condition in conditions list'
+            de_duplication_action: '- (Optional) Deduplication Action of the policy. This is a block, structure is documented below.'
+            de_duplication_action.count: '- (Required) - Count'
+            de_duplication_action.de_duplication_action_type: '- (Required) Deduplication type. Possible values are: "value-based", "frequency-based"'
+            de_duplication_action.duration: '- (Optional) Duration of this action (only required for "frequency-based" de-duplication action). This is a block, structure is documented below.'
+            delay_action: '- (Optional) Delay notifications. This is a block, structure is documented below.'
+            delay_action.delay_option: '- (Required) Defines until what day to delay or for what duration. Possible values are: for-duration, next-time, next-weekday, next-monday, next-tuesday, next-wednesday, next-thursday, next-friday, next-saturday, next-sunday'
+            delay_action.duration: '- (Optional) Duration of this action. If delay_option = for-duration this has to be set. This is a block, structure is documented below.'
+            delay_action.until_hour: '- (Optional) Until what hour notifications will be delayed. If delay_option is set to antyhing else then for-duration this has to be set.'
+            delay_action.until_minute: '- (Optional) Until what minute on until_hour notifications will be delayed. If delay_option is set to antyhing else then for-duration this has to be set.'
+            duration.time_amount: '- (Required) A amount of time in time_units. This is a integer attribute.'
+            duration.time_unit: '- (Optional) Valid time units are: minutes, hours, days. Default: minutes'
+            enabled: '- (Optional) If policy should be enabled. Default: true'
+            filter: '- (Required) A notification filter which will be applied. This filter can be empty: filter {} - this means match-all. This is a block, structure is documented below.'
+            filter.conditions: (Optional) Conditions applied to filter. This is a block, structure is documented below.
+            filter.type: '(Optional) - A filter type, supported types are: match-all, match-any-condition, match-all-conditions. Default: match-all'
+            id: '- The ID of the Opsgenie Notification Policy.'
+            name: '- (Required) Name of the notification policy'
+            policy_description: '- (Optional) Description of the policy. This can be max 512 characters.'
+            restriction.end_hour: '- (Required) Ending hour of restriction.'
+            restriction.end_min: '- (Required) Ending minute of restriction on defined end_hour'
+            restriction.start_hour: '- (Required) Starting hour of restriction.'
+            restriction.start_min: '- (Required) Staring minute of restriction on defined start_hour'
+            restrictions.end_day: '- (Required) Ending day of restriction (eg. wednesday)'
+            restrictions.end_hour: '- (Required) Ending hour of restriction on defined end_day'
+            restrictions.end_min: '- (Required) Ending minute of restriction on defined end_hour'
+            restrictions.start_day: '- (Required) Starting day of restriction (eg. monday)'
+            restrictions.start_hour: '- (Required) Starting hour of restriction on defined start_day'
+            restrictions.start_min: '- (Required) Staring minute of restriction on defined start_hour'
+            suppress: '- (Optional) Suppress value of the policy. Values are: true, false. Default: false'
+            team_id: '- (Required) Id of team that this policy belons to.'
+            time_restriction: '- (Optional) Time restrictions specified in this field must be met for this policy to work. This is a block, structure is documented below.'
+            time_restriction.restriction: '- (Optional) A definition of hourly definition applied daily, this has to be used with combination: type = time-of-day. This is a block, structure is documented below.'
+            time_restriction.restrictions: '- (Optional) List of days and hours definitions for field type = weekday-and-time-of-day. This is a block, structure is documented below.'
+            time_restriction.type: '- (Required) Defines if restriction should apply daily on given hours or on certain days and hours. Possible values are: time-of-day, weekday-and-time-of-day'
+        importStatements: []
+    opsgenie_notification_rule:
+        subCategory: ""
+        description: Manages a Notification Rule within Opsgenie.
+        name: opsgenie_notification_rule
+        title: opsgenie_notification_rule
+        examples:
+            - name: test
+              manifest: |-
+                {
+                  "action_type": "schedule-end",
+                  "name": "Example notification rule",
+                  "notification_time": [
+                    "just-before",
+                    "15-minutes-ago"
+                  ],
+                  "steps": [
+                    {
+                      "contact": [
+                        {
+                          "method": "email",
+                          "to": "example@user.com"
+                        }
+                      ]
+                    }
+                  ],
+                  "username": "${opsgenie_user.test.username}"
+                }
+              references:
+                username: opsgenie_user.test.username
+              dependencies:
+                opsgenie_user.test: |-
+                    {
+                      "full_name": "Name Lastname",
+                      "role": "User",
+                      "username": "Example user"
+                    }
+        argumentDocs:
+            action_type: '- (Required) Type of the action that notification rule will have. Allowed values: create-alert, acknowledged-alert, closed-alert, assigned-alert, add-note, schedule-start, schedule-end, incoming-call-routing'
+            conditions.expected_value: '- (Optional) User defined value that will be compared with alert field according to the operation. Default: empty string'
+            conditions.field: '- (Required) Possible values: message, alias, description, source, entity, tags, actions, details, extra-properties, recipients, teams, priority'
+            conditions.key: '- (Optional) If ''field'' is set as ''extra-properties'', key could be used for key-value pair'
+            conditions.not: '- (Optional) Indicates behaviour of the given operation. Default: false'
+            conditions.operation: '- (Required) Possible values: matches, contains, starts-with, ends-with, equals, contains-key, contains-value, greater-than, less-than, is-empty, equals-ignore-whitespace'
+            conditions.order: '- (Optional) Order of the condition in conditions list'
+            contact.method: '- (Required) Contact method. Possible values: email, sms, voice, mobile'
+            contact.to: '- (Required) Address of a given method (eg. email address for email, phone number for sms/voice or mobile application name for mobile)'
+            criteria.conditions: '- (Optional) Defines the fields and values when the condition applies'
+            criteria.type: '- (Required) Kind of matching filter. Possible values: match-all, match-any-condition, match-all-conditions'
+            enabled: '- (Optional) If policy should be enabled. Default: true'
+            id: '- The ID of the Opsgenie Notification Rule.'
+            name: '- (Required) Name of the notification policy'
+            notification_time: '- (Optional) List of Time Periods that notification for schedule start/end will be sent. Allowed values: just-before, 15-minutes-ago, 1-hour-ago, 1-day-ago. If action_type is schedule-start or schedule-end then it is required.'
+            steps: '- (Optional) Notification rule steps to take (eg. SMS or email message). This is a block, structure is documented below.'
+            steps.contact: '- (Required) Defines the contact that notification will be sent to. This is a block, structure is documented below.'
+            steps.enabled: '- (Optional) Defined if this step is enabled. Default: true'
+            steps.send_after: '- (Optional) Time period, in minutes, notification will be sent after.'
+            username: '- (Required) Username of user to which this notification rule belongs to.'
+        importStatements: []
+    opsgenie_schedule:
+        subCategory: ""
+        description: Manages a Schedule within Opsgenie.
+        name: opsgenie_schedule
+        title: opsgenie_schedule
+        examples:
+            - name: test
+              manifest: |-
+                {
+                  "description": "schedule test",
+                  "enabled": false,
+                  "name": "genieschedule-%s",
+                  "timezone": "Europe/Rome"
+                }
+            - name: test
+              manifest: |-
+                {
+                  "description": "schedule test",
+                  "enabled": false,
+                  "name": "genieschedule-%s",
+                  "owner_team_id": "${opsgenie_team.test.id}",
+                  "timezone": "Europe/Rome"
+                }
+        argumentDocs:
+            description: '- (Optional) The description of schedule.'
+            enabled: '- (Optional) Enable/disable state of schedule'
+            id: '- The ID of the Opsgenie Schedule.'
+            name: '- (Required) Name of the schedule.'
+            owner_team_id: '- (Optional) Owner team id of the schedule.'
+            rules: '- (Required) A Member block as documented below.'
+            timezone: '-  (Optional) Timezone of schedule. Please look at Supported Timezone Ids for available timezones - Default: America/New_York.'
+        importStatements: []
+    opsgenie_schedule_rotation:
+        subCategory: ""
+        description: Manages a Schedule Rotation within Opsgenie.
+        name: opsgenie_schedule_rotation
+        title: opsgenie_schedule_rotation
+        examples:
+            - name: test
+              manifest: |-
+                {
+                  "end_date": "2019-06-20T17:30:00Z",
+                  "length": 6,
+                  "name": "test",
+                  "participant": [
+                    {
+                      "id": "${opsgenie_user.test.id}",
+                      "type": "user"
+                    }
+                  ],
+                  "schedule_id": "${opsgenie_schedule.test.id}",
+                  "start_date": "2019-06-18T17:00:00Z",
+                  "time_restriction": [
+                    {
+                      "restriction": [
+                        {
+                          "end_hour": 10,
+                          "end_min": 1,
+                          "start_hour": 1,
+                          "start_min": 1
+                        }
+                      ],
+                      "type": "time-of-day"
+                    }
+                  ],
+                  "type": "hourly"
+                }
+        argumentDocs:
+            end_date: '- (Optional)  This parameter takes a date format as (yyyy-MM-dd''T''HH:mm:ssZ) (e.g. 2019-06-11T08:00:00+02:00). Minutes may take 0 or 30 as value. Otherwise they will be converted to nearest 0 or 30 automatically'
+            end_day: '- (Required) Value of the day that frame will end.'
+            end_hour: '- (Required) Value of the hour that frame will end.'
+            end_min: '- (Required) Value of the minute that frame will end. Minutes may take 0 or 30 as value. Otherwise they will be converted to nearest 0 or 30 automatically.'
+            id: '- (Required) The id of the responder.'
+            length: '- (Optional) Length of the rotation with default value 1.'
+            name: '- (Optional) Name of rotation.'
+            participant: '- (Required) List of escalations, teams, users or the reserved word none which will be used in schedule. Each of them can be used multiple times and will be rotated in the order they given. "user,escalation,team,none"'
+            restriction: '- (Optional) It is a restriction object which is described below. In this case startDay/endDay fields are not supported. This can be used only if time restriction type is time-of-day.'
+            restrictions: '- (Optional) It is a restriction object which is described below. This can be used only if time restriction type is weekday-and-time-of-day.'
+            schedule_id: '- (Required) Identifier of the schedule.'
+            start_date: '- (Required) This parameter takes a date format as (yyyy-MM-dd''T''HH:mm:ssZ) (e.g. 2019-06-11T08:00:00+02:00). Minutes may take 0 or 30 as value. Otherwise they will be converted to nearest 0 or 30 automatically'
+            start_day: '- (Required) Value of the day that frame will start.'
+            start_hour: '- (Required) Value of the hour that frame will start.'
+            start_min: '- (Required) Value of the minute that frame will start. Minutes may take 0 or 30 as value. Otherwise they will be converted to nearest 0 or 30 automatically.'
+            time_restriction: '- (Optional)'
+            type: '- (Required) Type of rotation. May be one of daily, weekly and hourly.'
+        importStatements: []
+    opsgenie_service:
+        subCategory: ""
+        description: Manages a Service within Opsgenie.
+        name: opsgenie_service
+        title: opsgenie_service
+        examples:
+            - name: this
+              manifest: |-
+                {
+                  "name": "Payment",
+                  "team_id": "$opsgenie_team.payment.id"
+                }
+              dependencies:
+                opsgenie_team.payment: |-
+                    {
+                      "description": "This team deals with all the things",
+                      "name": "example"
+                    }
+        argumentDocs:
+            description: '- (Optional) Description field of the service that is generally used to provide a detailed information about the service.'
+            id: '- The ID of the Opsgenie Service.'
+            name: '- (Required) Name of the service. This field must not be longer than 100 characters.'
+            team_id: '- (Required)  Team id of the service. This field must not be longer than 512 characters.'
+        importStatements: []
+    opsgenie_service_incident_rule:
+        subCategory: ""
+        description: Manages a Service Incident Rule within Opsgenie.
+        name: opsgenie_service_incident_rule
+        title: opsgenie_service_incident_rule
+        examples:
+            - name: test
+              manifest: |-
+                {
+                  "incident_rule": [
+                    {
+                      "condition_match_type": "match-any-condition",
+                      "conditions": [
+                        {
+                          "expected_value": "expected1",
+                          "field": "message",
+                          "not": false,
+                          "operation": "contains"
+                        },
+                        {
+                          "expected_value": "expected2",
+                          "field": "message",
+                          "not": false,
+                          "operation": "contains"
+                        }
+                      ],
+                      "incident_properties": [
+                        {
+                          "message": "This is a test message",
+                          "priority": "P3",
+                          "stakeholder_properties": [
+                            {
+                              "enable": "true",
+                              "message": "Message for stakeholders"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "service_id": "${opsgenie_service.test.id}"
+                }
+              references:
+                service_id: opsgenie_service.test.id
+              dependencies:
+                opsgenie_service.test: |-
+                    {
+                      "name": "example-service",
+                      "team_id": "${opsgenie_team.test.id}"
+                    }
+                opsgenie_team.test: |-
+                    {
+                      "description": "This team deals with all the things",
+                      "name": "example-team"
+                    }
+        argumentDocs:
+            conditions.expected_value: '- (Optional) User defined value that will be compared with alert field according to the operation. Default: empty string'
+            conditions.field: '- (Required) Specifies which alert field will be used in condition. Possible values are message, alias, description, source, entity, tags, actions, details, extra-properties, recipients, teams, priority'
+            conditions.not: '- (Optional) Indicates behaviour of the given operation. Default: false'
+            conditions.operation: '- (Required) It is the operation that will be executed for the given field and key. Possible operations are matches, contains, starts-with, ends-with, equals, contains-key, contains-value, greater-than, less-than, is-empty, equals-ignore-whitespace.'
+            id: '- The ID of the Opsgenie Service Incident Policy.'
+            incident_properties.description: '- (Optional) Description field of the incident rule.'
+            incident_properties.details: '- (Optional) Map of key-value pairs to use as custom properties of the alert.'
+            incident_properties.message: '- (Required) Message of the related incident rule.'
+            incident_properties.priority: '- (Required) Priority level of the alert. Possible values are P1, P2, P3, P4 and P5'
+            incident_properties.stakeholder_properties: '- (Required) DEtails about stakeholders for this rule. This is a block, structure is documented below.'
+            incident_properties.tags: '- (Optional) Tags of the alert.'
+            incident_rule: '- (Required) This is the rule configuration for this incident rule. This is a block, structure is documented below.'
+            incident_rule.condition_match_type: '- (Optional) A Condition type, supported types are: match-all, match-any-condition, match-all-conditions. Default: match-all'
+            incident_rule.conditions: '- (Optional) Conditions applied to incident. This is a block, structure is documented below.'
+            incident_rule.incident_properties: '- (Required) Properties for incident rule. This is a block, structure is documented below.'
+            service_id: '- (Required) ID of the service associated'
+            stakeholder_properties.description: '- (Optional) Description that is generally used to provide a detailed information about the alert.'
+            stakeholder_properties.enable: '- (Optional) Option to enable stakeholder notifications.Default value is true.'
+            stakeholder_properties.message: '- (Required) Message that is to be passed to audience that is generally used to provide a content information about the alert.'
+        importStatements: []
+    opsgenie_team:
+        subCategory: ""
+        description: Manages a Team within Opsgenie.
+        name: opsgenie_team
+        title: opsgenie_team
+        examples:
+            - name: test
+              manifest: |-
+                {
+                  "description": "This team deals with all the things",
+                  "member": [
+                    {
+                      "id": "${opsgenie_user.first.id}",
+                      "role": "admin"
+                    },
+                    {
+                      "id": "${opsgenie_user.second.id}",
+                      "role": "user"
+                    }
+                  ],
+                  "name": "example"
+                }
+              dependencies:
+                opsgenie_user.first: |-
+                    {
+                      "full_name": "name ",
+                      "role": "User",
+                      "username": "user@domain.com"
+                    }
+                opsgenie_user.second: |-
+                    {
+                      "full_name": "name ",
+                      "role": "User",
+                      "username": "test@domain.com"
+                    }
+            - name: self-service
+              manifest: |-
+                {
+                  "delete_default_resources": true,
+                  "description": "Membership in this team is managed via OpsGenie web UI only",
+                  "ignore_members": true,
+                  "name": "Self Service"
+                }
+              dependencies:
+                opsgenie_user.first: |-
+                    {
+                      "full_name": "name ",
+                      "role": "User",
+                      "username": "user@domain.com"
+                    }
+                opsgenie_user.second: |-
+                    {
+                      "full_name": "name ",
+                      "role": "User",
+                      "username": "test@domain.com"
+                    }
+        argumentDocs:
+            delete_default_resources: '- (Optional) Set to true to remove default escalation and schedule for newly created team. Be careful its also changes that team routing rule to None. That means you have to define routing rule as well'
+            description: '- (Optional) A description for this team.'
+            id: '- (Required) The UUID for the member to add to this Team.'
+            ignore_members: '- (Optional) Set to true to ignore any configured member blocks and any team member added/updated/removed via OpsGenie web UI. Use this option e.g. to maintain membership via web UI only and use it only for new teams. Changing the value for existing teams might lead to strange behaviour. Default: false.'
+            member: '- (Optional) A Member block as documented below.'
+            name: '- (Required) The name associated with this team. Opsgenie defines that this must not be longer than 100 characters.'
+            role: '- (Optional) The role for the user within the Team - can be either admin or user. Default: user.'
+        importStatements: []
+    opsgenie_team_routing_rule:
+        subCategory: ""
+        description: Manages a Team Routing Rule within Opsgenie.
+        name: opsgenie_team_routing_rule
+        title: opsgenie_team_routing_rule
+        examples:
+            - name: test
+              manifest: |-
+                {
+                  "criteria": [
+                    {
+                      "conditions": [
+                        {
+                          "expected_value": "expected1",
+                          "field": "message",
+                          "not": false,
+                          "operation": "contains"
+                        }
+                      ],
+                      "type": "match-any-condition"
+                    }
+                  ],
+                  "name": "routing rule example",
+                  "notify": [
+                    {
+                      "name": "${opsgenie_schedule.test.name}",
+                      "type": "schedule"
+                    }
+                  ],
+                  "order": 0,
+                  "team_id": "${opsgenie_team.test.id}",
+                  "time_restriction": [
+                    {
+                      "restrictions": [
+                        {
+                          "end_day": "tuesday",
+                          "end_hour": 18,
+                          "end_min": 30,
+                          "start_day": "monday",
+                          "start_hour": 8,
+                          "start_min": 0
+                        }
+                      ],
+                      "type": "weekday-and-time-of-day"
+                    }
+                  ],
+                  "timezone": "America/Los_Angeles"
+                }
+              dependencies:
+                opsgenie_schedule.test: |-
+                    {
+                      "description": "schedule test",
+                      "enabled": false,
+                      "name": "genieschedule",
+                      "timezone": "Europe/Rome"
+                    }
+                opsgenie_team.test: |-
+                    {
+                      "description": "This team deals with all the things",
+                      "name": "example team"
+                    }
+        argumentDocs:
+            conditions: '- (Optional) List of conditions will be checked before applying team routing rule. This field declaration should be omitted if the criteria type is set to match-all.'
+            criteria: '- (Optional) You can refer Criteria for detailed information about criteria and its fields'
+            expectedValue: '- (Optional) User defined value that will be compared with alert field according to the operation. Default: empty string.'
+            field: '- (Required) Specifies which alert field will be used in condition. Possible values are message, alias, description, source, entity, tags, actions, extra-properties, recipients, teams or priority.'
+            id: '- (Optional)'
+            is_default: '- (Optional) Only use when importing default routing rule'
+            key: '- (Optional) If field is set as extra-properties, key could be used for key-value pair.'
+            name: '- (Optional) Name of the team routing rule'
+            not: '- (Optional) Indicates behaviour of the given operation. Default value is false.'
+            notify: '- (Required) Target entity of schedule, escalation, or the reserved word none which will be notified in routing rule. The possible values are: schedule, escalation, none'
+            operation: '- (true) It is the operation that will be executed for the given field and key. Possible operations are matches, contains, starts-with, ends-with, equals, contains-key, contains-value, greater-than, less-than, is-empty and equals-ignore-whitespace.'
+            order: '- (Optional) The order of the team routing rule within the rules. order value is actually the index of the team routing rule whose minimum value is 0 and whose maximum value is n-1 (number of team routing rules is n)'
+            team_id: '- (Required) Id of the team owning the routing rule'
+            timeRestriction: '- (Optional) You can refer Time Restriction for detailed information about time restriction and its fields.'
+            timezone: '- (Optional) Timezone of team routing rule. If timezone field is not given, account timezone is used as default.You can refer to Supported Locale IDs for available timezones'
+            type: '- (Required)'
+        importStatements: []
+    opsgenie_user:
+        subCategory: ""
+        description: Manages a User within Opsgenie.
+        name: opsgenie_user
+        title: opsgenie_user
+        examples:
+            - name: test
+              manifest: |-
+                {
+                  "full_name": "Test User",
+                  "locale": "en_US",
+                  "role": "User",
+                  "skype_username": "skypename",
+                  "tags": [
+                    "sre",
+                    "opsgenie"
+                  ],
+                  "timezone": "America/New_York",
+                  "user_address": [
+                    {
+                      "city": "City",
+                      "country": "Country",
+                      "line": "Line",
+                      "state": "State",
+                      "zipcode": "998877"
+                    }
+                  ],
+                  "user_details": {
+                    "key1": "val1,val2",
+                    "key2": "val3,val4"
+                  },
+                  "username": "user@domain.com"
+                }
+        argumentDocs:
+            full_name: '- (Required) The Full Name of the User.'
+            id: '- The ID of the Opsgenie User.'
+            locale: '- (Optional) Location information for the user. Please look at Supported Locale Ids for available locales.'
+            role: '- (Required) The Role assigned to the User. Either a built-in such as ''Admin'' or ''User'' - or the name of a custom role.'
+            skype_username: '- (Optional) Skype username of the user.'
+            tags: '- (Optional) A list of tags to be associated with the user.'
+            timezone: '- (Optional) Timezone information of the user. Please look at Supported Timezone Ids for available timezones.'
+            user_address: '- (Optional) Address of the user.'
+            user_details: '- (Optional) Details about the user in form of key and list. of values.'
+            username: '- (Required) The email address associated with this user. Opsgenie defines that this must not be longer than 100 characters and must contain lowercase characters only.'
+        importStatements: []
+    opsgenie_user_contact:
+        subCategory: ""
+        description: Manages a User Contact.
+        name: opsgenie_user_contact
+        title: opsgenie_user_contact
+        examples:
+            - name: sms
+              manifest: |-
+                {
+                  "method": "sms",
+                  "to": "39-123",
+                  "username": "${opsgenie_user.exampleuser.username}"
+                }
+            - name: email
+              manifest: |-
+                {
+                  "method": "email",
+                  "to": "fahri@opsgenie.com",
+                  "username": "${opsgenie_user.exampleuser.username}"
+                }
+            - name: voice
+              manifest: |-
+                {
+                  "method": "voice",
+                  "to": "39-123",
+                  "username": "${opsgenie_user.exampleuser.username}"
+                }
+        argumentDocs:
+            enabled: '- (Optional) Enable contact of the user in OpsGenie. Default value is true.'
+            id: '- The ID of the Opsgenie Contact.'
+            method: '- (Required) This parameter is the contact method of user and should be one of email, sms or voice. Please note that adding mobile is not supported from API.'
+            to: '- (Required) to field is the address of given method.'
+            username: '- (Required) The username for contact.(reference)'
+        importStatements: []

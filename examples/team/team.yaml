@@ -1,0 +1,37 @@
+# Terraform Docs
+# https://registry.terraform.io/providers/opsgenie/opsgenie/latest/docs/resources/team
+
+apiVersion: team.opsgenie.upbound.io/v1alpha1
+kind: Team
+metadata:
+  name: team-name
+spec:
+  forProvider:
+    # Required, The name associated with this team. Opsgenie defines that this must not be longer than 100 characters.
+    name: Team Name
+    # Optional, A description for this team.
+    description: Some team description
+
+    # Optinal, Default false
+    # Set to true to ignore any configured member blocks and any team member added/updated/removed via OpsGenie web UI.
+    # Use this option e.g. to maintain membership via web UI only and use it only for new teams. Changing the value for existing teams might lead to strange behaviour.
+    ignoreMembers: false
+
+    # Optional, Set to true to remove default escalation and schedule for newly created team.
+    # Be careful its also changes that team routing rule to None. That means you have to define routing rule as well
+    deleteDefaultResources: false
+
+    # Optional
+    member:
+      # - id: beb6a1b6-2929-11ed-a261-0242ac120002
+      #   # Optional, The role for the user within the Team - can be either admin or user. Default: user.
+      #   role: user
+
+      - idRef:
+          name: john-smith
+        # Optional, The role for the user within the Team - can be either admin or user. Default: user.
+        role: user
+
+  providerConfigRef:
+    name: default
+

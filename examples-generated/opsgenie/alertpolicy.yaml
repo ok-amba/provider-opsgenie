@@ -1,0 +1,51 @@
+apiVersion: opsgenie.upbound.io/v1alpha1
+kind: AlertPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: opsgenie/v1alpha1/alertpolicy
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    filter:
+    - {}
+    message: '{{message}}'
+    name: example policy
+    policyDescription: This is sample policy
+    teamIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test
+    timeRestriction:
+    - restrictions:
+      - endDay: monday
+        endHour: 7
+        endMin: 0
+        startDay: sunday
+        startHour: 21
+        startMin: 0
+      - endDay: tuesday
+        endHour: 7
+        endMin: 0
+        startDay: monday
+        startHour: 22
+        startMin: 0
+      type: weekday-and-time-of-day
+
+---
+
+apiVersion: team.opsgenie.upbound.io/v1alpha1
+kind: Team
+metadata:
+  annotations:
+    meta.upbound.io/example-id: /v1alpha1/alertpolicy
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    description: This team deals with all the things
+    name: example team
+
+---
+
