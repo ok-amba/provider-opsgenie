@@ -10,6 +10,7 @@ export TERRAFORM_PROVIDER_SOURCE := opsgenie/opsgenie
 export TERRAFORM_PROVIDER_REPO := https://github.com/opsgenie/terraform-provider-opsgenie
 export TERRAFORM_PROVIDER_VERSION := 0.6.17
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME := terraform-provider-opsgenie
+export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://github.com/opsgenie/terraform-provider-opsgenie/releases/download/v$(TERRAFORM_PROVIDER_VERSION)
 export TERRAFORM_NATIVE_PROVIDER_BINARY := terraform-provider-opsgenie_v$(TERRAFORM_PROVIDER_VERSION)
 export TERRAFORM_DOCS_PATH := website/docs/r
 
