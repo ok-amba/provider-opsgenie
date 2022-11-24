@@ -1,0 +1,68 @@
+# Terraform Docs
+# https://registry.terraform.io/providers/opsgenie/opsgenie/latest/docs/resources/escalation
+
+apiVersion: opsgenie.upbound.io/v1alpha1
+kind: Escalation
+metadata:
+  name: escalation-name
+spec:
+  forProvider:
+    # Required, Name of the escalation.
+    name: Escalation Name
+
+    # Optional, Description of the escalation.
+    description: Description of the escalation.
+
+    # Optional, Owner team reference name of the escalation.
+    ownerTeamIdRef:
+      name: team-name
+
+    # Or a statically typed team ID.
+    # ownerTeamId: 09ecd8f8-01fa-4e6a-8e3d-688dc13a6d29
+
+    # Required, List of the escalation rules.
+    rules:
+      # Required, The condition for notifying the recipient of escalation rule that is based on the alert state.
+      # Possible values are: if-not-acked and if-not-closed.
+      # Default: if-not-acked
+      - condition: if-not-acked
+
+        # Required, Recipient calculation logic for schedules. Possible values are:
+        # - default: on call users
+        # - next: next users in rotation
+        # - previous: previous users on rotation
+        # - users: users of the team
+        # - admins: admins of the team
+        # - all: all members of the team
+        notifyType: default
+
+        # Required, Time delay of the escalation rule, in minutes.
+        delay: 1
+
+        # Required, Object of schedule, team, or users which will be notified in escalation.
+        # The possible values for participants are: user, schedule, team.
+        recipient:
+          - type: team
+            idRef:
+              name: team-name
+
+          # Crossplane does not support cross-resource refernces of multiple types.
+          # Therefore it is not possible to reference below user or schedule, but you can statically add them.
+          # https://github.com/crossplane/crossplane-runtime/issues/350
+
+          # - type: user
+          #   id: 68932e61-5592-41ba-8994-fee160159a43
+
+          # - type: schedule
+          #   id: 7b53a60e-2d51-11ed-a261-0242ac120002
+
+    # Optional, Repeat preferences of the escalation including repeat interval, count, reverting acknowledge
+    # and seen states back and closing an alert automatically as soon as repeats are completed
+    repeat:
+      - waitInterval: 10
+        count: 1
+        resetRecipientStates: true
+        closeAlertAfterAll: false
+
+  providerConfigRef:
+    name: default

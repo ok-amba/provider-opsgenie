@@ -10,6 +10,7 @@ import (
 	"github.com/upbound/upjet/pkg/controller"
 
 	alertpolicy "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/alertpolicy"
+	escalation "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/escalation"
 	providerconfig "github.com/ok-amba/provider-opsgenie/internal/controller/providerconfig"
 	team "github.com/ok-amba/provider-opsgenie/internal/controller/team/team"
 )
@@ -19,6 +20,7 @@ import (
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		alertpolicy.Setup,
+		escalation.Setup,
 		providerconfig.Setup,
 		team.Setup,
 	} {

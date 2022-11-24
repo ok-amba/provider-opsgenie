@@ -11,6 +11,7 @@ import (
 	ujconfig "github.com/upbound/upjet/pkg/config"
 
 	"github.com/ok-amba/provider-opsgenie/config/alertpolicy"
+	"github.com/ok-amba/provider-opsgenie/config/escalation"
 	"github.com/ok-amba/provider-opsgenie/config/team"
 )
 
@@ -37,6 +38,7 @@ func GetProvider() *ujconfig.Provider {
 		// add custom config functions
 		team.Configure,
 		alertpolicy.Configure,
+		escalation.Configure,
 	} {
 		configure(pc)
 	}
