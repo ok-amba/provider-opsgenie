@@ -1,0 +1,135 @@
+# Terraform Docs
+# https://registry.terraform.io/providers/opsgenie/opsgenie/latest/docs/resources/team_routing_rule
+
+apiVersion: team.opsgenie.upbound.io/v1alpha1
+kind: RoutingRule
+metadata:
+  name: team-routing-rule
+spec:
+  forProvider:
+    # Name of the team routing rule
+    name: Team Routing Rule Name
+
+    # Required, Id of the team owning the routing rule.
+    teamIdRef:
+      name: team-name
+
+    # Optional, Only use when importing default routing rule.
+    isDefault: false
+
+    # Optional, The order of the team routing rule within the rules.
+    # Order value is actually the index of the team routing rule whose minimum value is 0 and whose maximum value is n-1 (number of team routing rules is n)
+    order: 0
+
+    # Timezone of team routing rule. If timezone field is not given, account timezone is used as default.
+    # See https://support.atlassian.com/opsgenie/docs/supported-timezone-ids/
+    timezone: Europe/Copenhagen
+
+    # Optional.
+    criteria:
+      # Required, Type of the operation will be applied on conditions. Should be one of match-all, match-any-condition or match-all-conditions.
+      - type: match-all-conditions
+
+        # Optional, List of conditions will be checked before applying team routing rule.
+        # This field declaration should be omitted if the criteria type is set to match-all.
+        conditions:
+          # Required, Specifies which alert field will be used in condition.
+          # Possible values are message, alias, description, source, entity, tags, actions, details, extra-properties, recipients, teams, priority.
+          - field: extra-properties
+
+            # Required: It is the operation that will be executed for the given field and key.
+            # Possible operations are matches, contains, starts-with, ends-with, equals, contains-key, contains-value, greater-than, less-than, is-empty, equals-ignore-whitespace.
+            operation: matches
+
+            # Optional, If field is set as extra-properties, key could be used for key-value pair.
+            key: some-value
+
+            # Optinal, Indicates behaviour of the given operation. Default: false
+            not: false
+
+            # Optional, User defined value that will be compared with alert field according to the operation. Default: empty string
+            expectedValue: some-value
+
+            # Optional, Order of the condition in conditions list.
+            order: 1
+
+    # Optional, Time restrictions specified in this field must be met for this policy to work.
+    timeRestriction:
+      # Required, Defines if restriction should apply daily on given hours or on certain days and hours.
+      # Possible values are: time-of-day, weekday-and-time-of-day
+      - type: weekday-and-time-of-day
+
+        # Optinal, List of days and hours definitions for field type = weekday-and-time-of-day.
+        restrictions:
+          # Required, Starting day of restriction (eg. monday)
+          - startDay: monday
+
+            # Required, Starting hour of restriction on defined startDay
+            startHour: 7
+
+            # Required, Staring minute of restriction on defined startHour
+            startMin: 15
+
+            # Required, Ending day of restriction (eg. wednesday)
+            endDay: friday
+
+            # Required, Ending hour of restriction on defined endDay
+            endHour: 16
+
+            # Required, Ending minute of restriction on defined endHour
+            endMin: 0
+
+            # Required, Starting day of restriction (eg. monday)
+          - startDay: saturday
+
+            # Required, Starting hour of restriction on defined startDay
+            startHour: 10
+
+            # Required, Staring minute of restriction on defined startHour
+            startMin: 0
+
+            # Required, Ending day of restriction (eg. wednesday)
+            endDay: sunday
+
+            # Required, Ending hour of restriction on defined endDay
+            endHour: 14
+
+            # Required, Ending minute of restriction on defined endHour
+            endMin: 0
+
+      # Example on using "time-of-day" combined with "restriction".
+      # Even though "restriction" is an array, it's not possible to use more than one object.
+      # - type: time-of-day
+
+      #   # Optional, A definition of hourly definition applied daily, this has to be used with combination: type = time-of-day.
+      #   restriction:
+      #     # Required, Starting hour of restriction.
+      #   - startHour: 7
+
+      #     # Required, Ending hour of restriction.
+      #     endHour: 16
+
+      #     # Required, Staring minute of restriction on defined startHour
+      #     startMin: 00
+
+      #     # Required, Ending minute of restriction on defined endHour
+      #     endMin: 0
+
+    # Required, Target entity of schedule, escalation, or the reserved word none which will be notified in routing rule.
+    # The possible values are: schedule, escalation, none
+    notify:
+      - type: escalation
+        idRef:
+          name: escalation-name
+
+      # Crossplane does not support cross-resource refernces of multiple types.
+      # Therefore it is not possible to reference below user or schedule, but you can statically add them.
+      # https://github.com/crossplane/crossplane-runtime/issues/350
+
+      # - type: schedule
+      #   id: <some-uuid>
+
+      # - type: none
+
+  providerConfigRef:
+    name: default

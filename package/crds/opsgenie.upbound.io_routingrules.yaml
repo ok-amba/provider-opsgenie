@@ -5,7 +5,7 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: escalations.opsgenie.upbound.io
+  name: routingrules.opsgenie.upbound.io
 spec:
   group: opsgenie.upbound.io
   names:
@@ -13,10 +13,10 @@ spec:
     - crossplane
     - managed
     - opsgenie
-    kind: Escalation
-    listKind: EscalationList
-    plural: escalations
-    singular: escalation
+    kind: RoutingRule
+    listKind: RoutingRuleList
+    plural: routingrules
+    singular: routingrule
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,8 +35,8 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Escalation is the Schema for the Escalations API. Manages an
-          Escalation within Opsgenie.
+        description: RoutingRule is the Schema for the RoutingRules API. Manages a
+          Team Routing Rule within Opsgenie.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -51,7 +51,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: EscalationSpec defines the desired state of Escalation
+            description: RoutingRuleSpec defines the desired state of RoutingRule
             properties:
               deletionPolicy:
                 default: Delete
@@ -64,17 +64,168 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  description:
-                    description: Description of the escalation.
-                    type: string
+                  criteria:
+                    description: You can refer Criteria for detailed information about
+                      criteria and its fields
+                    items:
+                      properties:
+                        conditions:
+                          description: List of conditions will be checked before applying
+                            team routing rule. This field declaration should be omitted
+                            if the criteria type is set to match-all.
+                          items:
+                            properties:
+                              expectedValue:
+                                type: string
+                              field:
+                                description: Specifies which alert field will be used
+                                  in condition. Possible values are message, alias,
+                                  description, source, entity, tags, actions, extra-properties,
+                                  recipients, teams or priority.
+                                type: string
+                              key:
+                                description: If field is set as extra-properties,
+                                  key could be used for key-value pair.
+                                type: string
+                              not:
+                                description: Indicates behaviour of the given operation.
+                                  Default value is false.
+                                type: boolean
+                              operation:
+                                description: (true) It is the operation that will
+                                  be executed for the given field and key. Possible
+                                  operations are matches, contains, starts-with, ends-with,
+                                  equals, contains-key, contains-value, greater-than,
+                                  less-than, is-empty and equals-ignore-whitespace.
+                                type: string
+                              order:
+                                description: The order of the team routing rule within
+                                  the rules. order value is actually the index of
+                                  the team routing rule whose minimum value is 0 and
+                                  whose maximum value is n-1 (number of team routing
+                                  rules is n)
+                                type: number
+                            required:
+                            - field
+                            - operation
+                            type: object
+                          type: array
+                        type:
+                          type: string
+                      required:
+                      - type
+                      type: object
+                    type: array
+                  isDefault:
+                    description: Only use when importing default routing rule
+                    type: boolean
                   name:
-                    description: Name of the escalation.
+                    description: Name of the team routing rule
                     type: string
-                  ownerTeamId:
-                    description: Owner team id of the escalation.
+                  notify:
+                    description: 'Target entity of schedule, escalation, or the reserved
+                      word none which will be notified in routing rule. The possible
+                      values are: schedule, escalation, none'
+                    items:
+                      properties:
+                        id:
+                          type: string
+                        idRef:
+                          description: Reference to a Escalation to populate id.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        idSelector:
+                          description: Selector for a Escalation to populate id.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        name:
+                          description: Name of the team routing rule
+                          type: string
+                        type:
+                          type: string
+                      required:
+                      - type
+                      type: object
+                    type: array
+                  order:
+                    description: The order of the team routing rule within the rules.
+                      order value is actually the index of the team routing rule whose
+                      minimum value is 0 and whose maximum value is n-1 (number of
+                      team routing rules is n)
+                    type: number
+                  teamId:
+                    description: Id of the team owning the routing rule
                     type: string
-                  ownerTeamIdRef:
-                    description: Reference to a Team to populate ownerTeamId.
+                  teamIdRef:
+                    description: Reference to a Team to populate teamId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -107,8 +258,8 @@ spec:
                     required:
                     - name
                     type: object
-                  ownerTeamIdSelector:
-                    description: Selector for a Team to populate ownerTeamId.
+                  teamIdSelector:
+                    description: Selector for a Team to populate teamId.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -146,140 +297,64 @@ spec:
                             type: string
                         type: object
                     type: object
-                  repeat:
-                    description: Repeat preferences of the escalation including repeat
-                      interval, count, reverting acknowledge and seen states back
-                      and closing an alert automatically as soon as repeats are completed
+                  timeRestriction:
                     items:
                       properties:
-                        closeAlertAfterAll:
-                          description: ': all members of the team'
-                          type: boolean
-                        count:
-                          type: number
-                        resetRecipientStates:
-                          type: boolean
-                        waitInterval:
-                          type: number
-                      type: object
-                    type: array
-                  rules:
-                    description: List of the escalation rules.
-                    items:
-                      properties:
-                        condition:
-                          description: 'The condition for notifying the recipient
-                            of escalation rule that is based on the alert state. Possible
-                            values are: if-not-acked and if-not-closed. Default: if-not-acked'
-                          type: string
-                        delay:
-                          description: Time delay of the escalation rule, in minutes.
-                          type: number
-                        notifyType:
-                          description: 'Recipient calculation logic for schedules.
-                            Possible values are:'
-                          type: string
-                        recipient:
-                          description: 'Object of schedule, team, or users which will
-                            be notified in escalation. The possible values for participants
-                            are: user, schedule, team.'
+                        restriction:
                           items:
                             properties:
-                              id:
-                                description: The ID of the Opsgenie Escalation.
-                                type: string
-                              idRef:
-                                description: Reference to a Team to populate id.
-                                properties:
-                                  name:
-                                    description: Name of the referenced object.
-                                    type: string
-                                  policy:
-                                    description: Policies for referencing.
-                                    properties:
-                                      resolution:
-                                        default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
-                                        enum:
-                                        - Required
-                                        - Optional
-                                        type: string
-                                      resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
-                                        enum:
-                                        - Always
-                                        - IfNotPresent
-                                        type: string
-                                    type: object
-                                required:
-                                - name
-                                type: object
-                              idSelector:
-                                description: Selector for a Team to populate id.
-                                properties:
-                                  matchControllerRef:
-                                    description: MatchControllerRef ensures an object
-                                      with the same controller reference as the selecting
-                                      object is selected.
-                                    type: boolean
-                                  matchLabels:
-                                    additionalProperties:
-                                      type: string
-                                    description: MatchLabels ensures an object with
-                                      matching labels is selected.
-                                    type: object
-                                  policy:
-                                    description: Policies for selection.
-                                    properties:
-                                      resolution:
-                                        default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
-                                        enum:
-                                        - Required
-                                        - Optional
-                                        type: string
-                                      resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
-                                        enum:
-                                        - Always
-                                        - IfNotPresent
-                                        type: string
-                                    type: object
-                                type: object
-                              type:
-                                type: string
+                              endHour:
+                                type: number
+                              endMin:
+                                type: number
+                              startHour:
+                                type: number
+                              startMin:
+                                type: number
+                            required:
+                            - endHour
+                            - endMin
+                            - startHour
+                            - startMin
                             type: object
                           type: array
+                        restrictions:
+                          items:
+                            properties:
+                              endDay:
+                                type: string
+                              endHour:
+                                type: number
+                              endMin:
+                                type: number
+                              startDay:
+                                type: string
+                              startHour:
+                                type: number
+                              startMin:
+                                type: number
+                            required:
+                            - endDay
+                            - endHour
+                            - endMin
+                            - startDay
+                            - startHour
+                            - startMin
+                            type: object
+                          type: array
+                        type:
+                          type: string
                       required:
-                      - condition
-                      - delay
-                      - notifyType
-                      - recipient
+                      - type
                       type: object
                     type: array
+                  timezone:
+                    description: Timezone of team routing rule. If timezone field
+                      is not given, account timezone is used as default.You can refer
+                      to Supported Locale IDs for available timezones
+                    type: string
                 required:
-                - name
-                - rules
+                - notify
                 type: object
               providerConfigRef:
                 default:
@@ -453,12 +528,11 @@ spec:
             - forProvider
             type: object
           status:
-            description: EscalationStatus defines the observed state of Escalation.
+            description: RoutingRuleStatus defines the observed state of RoutingRule.
             properties:
               atProvider:
                 properties:
                   id:
-                    description: The ID of the Opsgenie Escalation.
                     type: string
                 type: object
               conditions:

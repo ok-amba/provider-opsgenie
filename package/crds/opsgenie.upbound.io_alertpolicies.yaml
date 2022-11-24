@@ -189,7 +189,7 @@ spec:
                           description: ID of the responder
                           type: string
                         idRef:
-                          description: Reference to a Team in team to populate id.
+                          description: Reference to a Team to populate id.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -224,7 +224,7 @@ spec:
                           - name
                           type: object
                         idSelector:
-                          description: Selector for a Team in team to populate id.
+                          description: Selector for a Team to populate id.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with
@@ -293,7 +293,7 @@ spec:
                     description: Id of team that this policy belongs to.
                     type: string
                   teamIdRef:
-                    description: Reference to a Team in team to populate teamId.
+                    description: Reference to a Team to populate teamId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -327,7 +327,7 @@ spec:
                     - name
                     type: object
                   teamIdSelector:
-                    description: Selector for a Team in team to populate teamId.
+                    description: Selector for a Team to populate teamId.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

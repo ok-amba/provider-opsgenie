@@ -30,15 +30,15 @@ type EscalationParameters struct {
 	Name *string `json:"name" tf:"name,omitempty"`
 
 	// Owner team id of the escalation.
-	// +crossplane:generate:reference:type=github.com/ok-amba/provider-opsgenie/apis/team/v1alpha1.Team
+	// +crossplane:generate:reference:type=Team
 	// +kubebuilder:validation:Optional
 	OwnerTeamID *string `json:"ownerTeamId,omitempty" tf:"owner_team_id,omitempty"`
 
-	// Reference to a Team in team to populate ownerTeamId.
+	// Reference to a Team to populate ownerTeamId.
 	// +kubebuilder:validation:Optional
 	OwnerTeamIDRef *v1.Reference `json:"ownerTeamIdRef,omitempty" tf:"-"`
 
-	// Selector for a Team in team to populate ownerTeamId.
+	// Selector for a Team to populate ownerTeamId.
 	// +kubebuilder:validation:Optional
 	OwnerTeamIDSelector *v1.Selector `json:"ownerTeamIdSelector,omitempty" tf:"-"`
 
@@ -57,15 +57,15 @@ type RecipientObservation struct {
 type RecipientParameters struct {
 
 	// The ID of the Opsgenie Escalation.
-	// +crossplane:generate:reference:type=github.com/ok-amba/provider-opsgenie/apis/team/v1alpha1.Team
+	// +crossplane:generate:reference:type=Team
 	// +kubebuilder:validation:Optional
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Reference to a Team in team to populate id.
+	// Reference to a Team to populate id.
 	// +kubebuilder:validation:Optional
 	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
 
-	// Selector for a Team in team to populate id.
+	// Selector for a Team to populate id.
 	// +kubebuilder:validation:Optional
 	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 

@@ -1,36 +1,38 @@
 apiVersion: opsgenie.upbound.io/v1alpha1
-kind: AlertPolicy
+kind: RoutingRule
 metadata:
   annotations:
-    meta.upbound.io/example-id: opsgenie/v1alpha1/alertpolicy
+    meta.upbound.io/example-id: opsgenie/v1alpha1/routingrule
   labels:
     testing.upbound.io/example-name: test
   name: test
 spec:
   forProvider:
-    filter:
-    - {}
-    message: '{{message}}'
-    name: example policy
-    policyDescription: This is sample policy
+    criteria:
+    - conditions:
+      - expectedValue: expected1
+        field: message
+        not: false
+        operation: contains
+      type: match-any-condition
+    name: routing rule example
+    notify:
+    - name: ${opsgenie_schedule.test.name}
+      type: schedule
+    order: 0
     teamIdSelector:
       matchLabels:
         testing.upbound.io/example-name: test
     timeRestriction:
     - restrictions:
-      - endDay: monday
-        endHour: 7
-        endMin: 0
-        startDay: sunday
-        startHour: 21
-        startMin: 0
       - endDay: tuesday
-        endHour: 7
-        endMin: 0
+        endHour: 18
+        endMin: 30
         startDay: monday
-        startHour: 22
+        startHour: 8
         startMin: 0
       type: weekday-and-time-of-day
+    timezone: America/Los_Angeles
 
 ---
 
@@ -38,7 +40,7 @@ apiVersion: opsgenie.upbound.io/v1alpha1
 kind: Team
 metadata:
   annotations:
-    meta.upbound.io/example-id: /v1alpha1/alertpolicy
+    meta.upbound.io/example-id: /v1alpha1/routingrule
   labels:
     testing.upbound.io/example-name: test
   name: test

@@ -8,7 +8,6 @@ package v1alpha1
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	v1alpha1 "github.com/ok-amba/provider-opsgenie/apis/team/v1alpha1"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -27,8 +26,8 @@ func (mg *AlertPolicy) ResolveReferences(ctx context.Context, c client.Reader) e
 			Reference:    mg.Spec.ForProvider.Responders[i3].IDRef,
 			Selector:     mg.Spec.ForProvider.Responders[i3].IDSelector,
 			To: reference.To{
-				List:    &v1alpha1.TeamList{},
-				Managed: &v1alpha1.Team{},
+				List:    &TeamList{},
+				Managed: &Team{},
 			},
 		})
 		if err != nil {
@@ -44,8 +43,8 @@ func (mg *AlertPolicy) ResolveReferences(ctx context.Context, c client.Reader) e
 		Reference:    mg.Spec.ForProvider.TeamIDRef,
 		Selector:     mg.Spec.ForProvider.TeamIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.TeamList{},
-			Managed: &v1alpha1.Team{},
+			List:    &TeamList{},
+			Managed: &Team{},
 		},
 	})
 	if err != nil {
@@ -70,8 +69,8 @@ func (mg *Escalation) ResolveReferences(ctx context.Context, c client.Reader) er
 		Reference:    mg.Spec.ForProvider.OwnerTeamIDRef,
 		Selector:     mg.Spec.ForProvider.OwnerTeamIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.TeamList{},
-			Managed: &v1alpha1.Team{},
+			List:    &TeamList{},
+			Managed: &Team{},
 		},
 	})
 	if err != nil {
@@ -88,8 +87,8 @@ func (mg *Escalation) ResolveReferences(ctx context.Context, c client.Reader) er
 				Reference:    mg.Spec.ForProvider.Rules[i3].Recipient[i4].IDRef,
 				Selector:     mg.Spec.ForProvider.Rules[i3].Recipient[i4].IDSelector,
 				To: reference.To{
-					List:    &v1alpha1.TeamList{},
-					Managed: &v1alpha1.Team{},
+					List:    &TeamList{},
+					Managed: &Team{},
 				},
 			})
 			if err != nil {
@@ -100,6 +99,50 @@ func (mg *Escalation) ResolveReferences(ctx context.Context, c client.Reader) er
 
 		}
 	}
+
+	return nil
+}
+
+// ResolveReferences of this RoutingRule.
+func (mg *RoutingRule) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Notify); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Notify[i3].ID),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.ForProvider.Notify[i3].IDRef,
+			Selector:     mg.Spec.ForProvider.Notify[i3].IDSelector,
+			To: reference.To{
+				List:    &EscalationList{},
+				Managed: &Escalation{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Notify[i3].ID")
+		}
+		mg.Spec.ForProvider.Notify[i3].ID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Notify[i3].IDRef = rsp.ResolvedReference
+
+	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TeamID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.TeamIDRef,
+		Selector:     mg.Spec.ForProvider.TeamIDSelector,
+		To: reference.To{
+			List:    &TeamList{},
+			Managed: &Team{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.TeamID")
+	}
+	mg.Spec.ForProvider.TeamID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.TeamIDRef = rsp.ResolvedReference
 
 	return nil
 }
