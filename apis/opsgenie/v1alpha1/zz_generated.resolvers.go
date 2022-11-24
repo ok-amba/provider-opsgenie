@@ -56,3 +56,50 @@ func (mg *AlertPolicy) ResolveReferences(ctx context.Context, c client.Reader) e
 
 	return nil
 }
+
+// ResolveReferences of this Escalation.
+func (mg *Escalation) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OwnerTeamID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.OwnerTeamIDRef,
+		Selector:     mg.Spec.ForProvider.OwnerTeamIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.TeamList{},
+			Managed: &v1alpha1.Team{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.OwnerTeamID")
+	}
+	mg.Spec.ForProvider.OwnerTeamID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.OwnerTeamIDRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Rules); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Rules[i3].Recipient); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Rules[i3].Recipient[i4].ID),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.ForProvider.Rules[i3].Recipient[i4].IDRef,
+				Selector:     mg.Spec.ForProvider.Rules[i3].Recipient[i4].IDSelector,
+				To: reference.To{
+					List:    &v1alpha1.TeamList{},
+					Managed: &v1alpha1.Team{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Rules[i3].Recipient[i4].ID")
+			}
+			mg.Spec.ForProvider.Rules[i3].Recipient[i4].ID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Rules[i3].Recipient[i4].IDRef = rsp.ResolvedReference
+
+		}
+	}
+
+	return nil
+}
