@@ -5,9 +5,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: teams.team.opsgenie.upbound.io
+  name: teams.opsgenie.upbound.io
 spec:
-  group: team.opsgenie.upbound.io
+  group: opsgenie.upbound.io
   names:
     categories:
     - crossplane

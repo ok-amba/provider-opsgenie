@@ -94,15 +94,15 @@ type AlertPolicyParameters struct {
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// Id of team that this policy belongs to.
-	// +crossplane:generate:reference:type=github.com/ok-amba/provider-opsgenie/apis/team/v1alpha1.Team
+	// +crossplane:generate:reference:type=Team
 	// +kubebuilder:validation:Optional
 	TeamID *string `json:"teamId,omitempty" tf:"team_id,omitempty"`
 
-	// Reference to a Team in team to populate teamId.
+	// Reference to a Team to populate teamId.
 	// +kubebuilder:validation:Optional
 	TeamIDRef *v1.Reference `json:"teamIdRef,omitempty" tf:"-"`
 
-	// Selector for a Team in team to populate teamId.
+	// Selector for a Team to populate teamId.
 	// +kubebuilder:validation:Optional
 	TeamIDSelector *v1.Selector `json:"teamIdSelector,omitempty" tf:"-"`
 
@@ -165,15 +165,15 @@ type RespondersObservation struct {
 type RespondersParameters struct {
 
 	// ID of the responder
-	// +crossplane:generate:reference:type=github.com/ok-amba/provider-opsgenie/apis/team/v1alpha1.Team
+	// +crossplane:generate:reference:type=Team
 	// +kubebuilder:validation:Optional
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Reference to a Team in team to populate id.
+	// Reference to a Team to populate id.
 	// +kubebuilder:validation:Optional
 	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
 
-	// Selector for a Team in team to populate id.
+	// Selector for a Team to populate id.
 	// +kubebuilder:validation:Optional
 	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 

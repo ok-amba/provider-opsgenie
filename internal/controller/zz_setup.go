@@ -11,8 +11,9 @@ import (
 
 	alertpolicy "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/alertpolicy"
 	escalation "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/escalation"
+	routingrule "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/routingrule"
+	team "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/team"
 	providerconfig "github.com/ok-amba/provider-opsgenie/internal/controller/providerconfig"
-	team "github.com/ok-amba/provider-opsgenie/internal/controller/team/team"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
@@ -21,8 +22,9 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		alertpolicy.Setup,
 		escalation.Setup,
-		providerconfig.Setup,
+		routingrule.Setup,
 		team.Setup,
+		providerconfig.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

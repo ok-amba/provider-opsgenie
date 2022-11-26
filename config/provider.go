@@ -13,6 +13,7 @@ import (
 	"github.com/ok-amba/provider-opsgenie/config/alertpolicy"
 	"github.com/ok-amba/provider-opsgenie/config/escalation"
 	"github.com/ok-amba/provider-opsgenie/config/team"
+	"github.com/ok-amba/provider-opsgenie/config/teamroutingrule"
 )
 
 const (
@@ -37,6 +38,7 @@ func GetProvider() *ujconfig.Provider {
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
 		team.Configure,
+		teamroutingrule.Configure,
 		alertpolicy.Configure,
 		escalation.Configure,
 	} {

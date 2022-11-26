@@ -1,4 +1,5 @@
 /.cache
+/test-examples
 /.work
 /_output
 cover.out

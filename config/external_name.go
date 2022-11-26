@@ -10,9 +10,10 @@ import "github.com/upbound/upjet/pkg/config"
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// Import requires using a randomly generated ID from provider: nl-2e21sda
-	"opsgenie_team":         config.IdentifierFromProvider,
-	"opsgenie_alert_policy": config.IdentifierFromProvider,
-	"opsgenie_escalation":   config.IdentifierFromProvider,
+	"opsgenie_team":              config.IdentifierFromProvider,
+	"opsgenie_team_routing_rule": config.IdentifierFromProvider,
+	"opsgenie_alert_policy":      config.IdentifierFromProvider,
+	"opsgenie_escalation":        config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
