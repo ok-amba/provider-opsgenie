@@ -5,7 +5,7 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: routingrules.opsgenie.upbound.io
+  name: teamroutingrules.opsgenie.upbound.io
 spec:
   group: opsgenie.upbound.io
   names:
@@ -13,10 +13,10 @@ spec:
     - crossplane
     - managed
     - opsgenie
-    kind: RoutingRule
-    listKind: RoutingRuleList
-    plural: routingrules
-    singular: routingrule
+    kind: TeamRoutingRule
+    listKind: TeamRoutingRuleList
+    plural: teamroutingrules
+    singular: teamroutingrule
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,8 +35,8 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: RoutingRule is the Schema for the RoutingRules API. Manages a
-          Team Routing Rule within Opsgenie.
+        description: TeamRoutingRule is the Schema for the TeamRoutingRules API. Manages
+          a Team Routing Rule within Opsgenie.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -51,7 +51,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: RoutingRuleSpec defines the desired state of RoutingRule
+            description: TeamRoutingRuleSpec defines the desired state of TeamRoutingRule
             properties:
               deletionPolicy:
                 default: Delete
@@ -528,7 +528,7 @@ spec:
             - forProvider
             type: object
           status:
-            description: RoutingRuleStatus defines the observed state of RoutingRule.
+            description: TeamRoutingRuleStatus defines the observed state of TeamRoutingRule.
             properties:
               atProvider:
                 properties:

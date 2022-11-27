@@ -1,8 +1,8 @@
 apiVersion: opsgenie.upbound.io/v1alpha1
-kind: RoutingRule
+kind: TeamRoutingRule
 metadata:
   annotations:
-    meta.upbound.io/example-id: opsgenie/v1alpha1/routingrule
+    meta.upbound.io/example-id: opsgenie/v1alpha1/teamroutingrule
   labels:
     testing.upbound.io/example-name: test
   name: test
@@ -40,7 +40,7 @@ apiVersion: opsgenie.upbound.io/v1alpha1
 kind: Team
 metadata:
   annotations:
-    meta.upbound.io/example-id: /v1alpha1/routingrule
+    meta.upbound.io/example-id: /v1alpha1/teamroutingrule
   labels:
     testing.upbound.io/example-name: test
   name: test
