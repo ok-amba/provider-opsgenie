@@ -11,8 +11,8 @@ import (
 
 	alertpolicy "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/alertpolicy"
 	escalation "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/escalation"
-	routingrule "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/routingrule"
 	team "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/team"
+	teamroutingrule "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/teamroutingrule"
 	providerconfig "github.com/ok-amba/provider-opsgenie/internal/controller/providerconfig"
 )
 
@@ -22,8 +22,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		alertpolicy.Setup,
 		escalation.Setup,
-		routingrule.Setup,
 		team.Setup,
+		teamroutingrule.Setup,
 		providerconfig.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {

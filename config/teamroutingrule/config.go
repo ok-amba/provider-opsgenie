@@ -6,7 +6,7 @@ import "github.com/upbound/upjet/pkg/config"
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("opsgenie_team_routing_rule", func(r *config.Resource) {
 		r.ShortGroup = ""
-		r.Kind = "RoutingRule"
+		r.Kind = "TeamRoutingRule"
 
 		r.References["team_id"] = config.Reference{
 			Type: "Team",

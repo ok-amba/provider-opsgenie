@@ -1,7 +1,7 @@
 # Terraform Docs
 # https://registry.terraform.io/providers/opsgenie/opsgenie/latest/docs/resources/team
 
-apiVersion: team.opsgenie.upbound.io/v1alpha1
+apiVersion: opsgenie.upbound.io/v1alpha1
 kind: Team
 metadata:
   name: team-name
@@ -34,4 +34,3 @@ spec:
 
   providerConfigRef:
     name: default
-

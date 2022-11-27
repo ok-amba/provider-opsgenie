@@ -103,8 +103,8 @@ func (mg *Escalation) ResolveReferences(ctx context.Context, c client.Reader) er
 	return nil
 }
 
-// ResolveReferences of this RoutingRule.
-func (mg *RoutingRule) ResolveReferences(ctx context.Context, c client.Reader) error {
+// ResolveReferences of this TeamRoutingRule.
+func (mg *TeamRoutingRule) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse

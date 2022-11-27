@@ -235,18 +235,18 @@ func (tr *Team) GetTerraformSchemaVersion() int {
 	return 0
 }
 
-// GetTerraformResourceType returns Terraform resource type for this RoutingRule
-func (mg *RoutingRule) GetTerraformResourceType() string {
+// GetTerraformResourceType returns Terraform resource type for this TeamRoutingRule
+func (mg *TeamRoutingRule) GetTerraformResourceType() string {
 	return "opsgenie_team_routing_rule"
 }
 
-// GetConnectionDetailsMapping for this RoutingRule
-func (tr *RoutingRule) GetConnectionDetailsMapping() map[string]string {
+// GetConnectionDetailsMapping for this TeamRoutingRule
+func (tr *TeamRoutingRule) GetConnectionDetailsMapping() map[string]string {
 	return nil
 }
 
-// GetObservation of this RoutingRule
-func (tr *RoutingRule) GetObservation() (map[string]any, error) {
+// GetObservation of this TeamRoutingRule
+func (tr *TeamRoutingRule) GetObservation() (map[string]any, error) {
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
@@ -255,8 +255,8 @@ func (tr *RoutingRule) GetObservation() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(o, &base)
 }
 
-// SetObservation for this RoutingRule
-func (tr *RoutingRule) SetObservation(obs map[string]any) error {
+// SetObservation for this TeamRoutingRule
+func (tr *TeamRoutingRule) SetObservation(obs map[string]any) error {
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -264,16 +264,16 @@ func (tr *RoutingRule) SetObservation(obs map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
 }
 
-// GetID returns ID of underlying Terraform resource of this RoutingRule
-func (tr *RoutingRule) GetID() string {
+// GetID returns ID of underlying Terraform resource of this TeamRoutingRule
+func (tr *TeamRoutingRule) GetID() string {
 	if tr.Status.AtProvider.ID == nil {
 		return ""
 	}
 	return *tr.Status.AtProvider.ID
 }
 
-// GetParameters of this RoutingRule
-func (tr *RoutingRule) GetParameters() (map[string]any, error) {
+// GetParameters of this TeamRoutingRule
+func (tr *TeamRoutingRule) GetParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
 	if err != nil {
 		return nil, err
@@ -282,8 +282,8 @@ func (tr *RoutingRule) GetParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetParameters for this RoutingRule
-func (tr *RoutingRule) SetParameters(params map[string]any) error {
+// SetParameters for this TeamRoutingRule
+func (tr *TeamRoutingRule) SetParameters(params map[string]any) error {
 	p, err := json.TFParser.Marshal(params)
 	if err != nil {
 		return err
@@ -291,10 +291,10 @@ func (tr *RoutingRule) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
-// LateInitialize this RoutingRule using its observed tfState.
+// LateInitialize this TeamRoutingRule using its observed tfState.
 // returns True if there are any spec changes for the resource.
-func (tr *RoutingRule) LateInitialize(attrs []byte) (bool, error) {
-	params := &RoutingRuleParameters{}
+func (tr *TeamRoutingRule) LateInitialize(attrs []byte) (bool, error) {
+	params := &TeamRoutingRuleParameters{}
 	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
 		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
 	}
@@ -305,6 +305,6 @@ func (tr *RoutingRule) LateInitialize(attrs []byte) (bool, error) {
 }
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
-func (tr *RoutingRule) GetTerraformSchemaVersion() int {
+func (tr *TeamRoutingRule) GetTerraformSchemaVersion() int {
 	return 0
 }

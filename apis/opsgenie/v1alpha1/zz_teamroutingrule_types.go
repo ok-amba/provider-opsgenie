@@ -80,11 +80,11 @@ type NotifyParameters struct {
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
-type RoutingRuleObservation struct {
+type TeamRoutingRuleObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
-type RoutingRuleParameters struct {
+type TeamRoutingRuleParameters struct {
 
 	// You can refer Criteria for detailed information about criteria and its fields
 	// +kubebuilder:validation:Optional
@@ -120,17 +120,17 @@ type RoutingRuleParameters struct {
 	TeamIDSelector *v1.Selector `json:"teamIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	TimeRestriction []RoutingRuleTimeRestrictionParameters `json:"timeRestriction,omitempty" tf:"time_restriction,omitempty"`
+	TimeRestriction []TeamRoutingRuleTimeRestrictionParameters `json:"timeRestriction,omitempty" tf:"time_restriction,omitempty"`
 
 	// Timezone of team routing rule. If timezone field is not given, account timezone is used as default.You can refer to Supported Locale IDs for available timezones
 	// +kubebuilder:validation:Optional
 	Timezone *string `json:"timezone,omitempty" tf:"timezone,omitempty"`
 }
 
-type RoutingRuleTimeRestrictionObservation struct {
+type TeamRoutingRuleTimeRestrictionObservation struct {
 }
 
-type RoutingRuleTimeRestrictionParameters struct {
+type TeamRoutingRuleTimeRestrictionParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Restriction []TimeRestrictionRestrictionParameters `json:"restriction,omitempty" tf:"restriction,omitempty"`
@@ -184,51 +184,51 @@ type TimeRestrictionRestrictionsParameters struct {
 	StartMin *float64 `json:"startMin" tf:"start_min,omitempty"`
 }
 
-// RoutingRuleSpec defines the desired state of RoutingRule
-type RoutingRuleSpec struct {
+// TeamRoutingRuleSpec defines the desired state of TeamRoutingRule
+type TeamRoutingRuleSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     RoutingRuleParameters `json:"forProvider"`
+	ForProvider     TeamRoutingRuleParameters `json:"forProvider"`
 }
 
-// RoutingRuleStatus defines the observed state of RoutingRule.
-type RoutingRuleStatus struct {
+// TeamRoutingRuleStatus defines the observed state of TeamRoutingRule.
+type TeamRoutingRuleStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        RoutingRuleObservation `json:"atProvider,omitempty"`
+	AtProvider        TeamRoutingRuleObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// RoutingRule is the Schema for the RoutingRules API. Manages a Team Routing Rule within Opsgenie.
+// TeamRoutingRule is the Schema for the TeamRoutingRules API. Manages a Team Routing Rule within Opsgenie.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,opsgenie}
-type RoutingRule struct {
+type TeamRoutingRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RoutingRuleSpec   `json:"spec"`
-	Status            RoutingRuleStatus `json:"status,omitempty"`
+	Spec              TeamRoutingRuleSpec   `json:"spec"`
+	Status            TeamRoutingRuleStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// RoutingRuleList contains a list of RoutingRules
-type RoutingRuleList struct {
+// TeamRoutingRuleList contains a list of TeamRoutingRules
+type TeamRoutingRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []RoutingRule `json:"items"`
+	Items           []TeamRoutingRule `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	RoutingRule_Kind             = "RoutingRule"
-	RoutingRule_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: RoutingRule_Kind}.String()
-	RoutingRule_KindAPIVersion   = RoutingRule_Kind + "." + CRDGroupVersion.String()
-	RoutingRule_GroupVersionKind = CRDGroupVersion.WithKind(RoutingRule_Kind)
+	TeamRoutingRule_Kind             = "TeamRoutingRule"
+	TeamRoutingRule_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: TeamRoutingRule_Kind}.String()
+	TeamRoutingRule_KindAPIVersion   = TeamRoutingRule_Kind + "." + CRDGroupVersion.String()
+	TeamRoutingRule_GroupVersionKind = CRDGroupVersion.WithKind(TeamRoutingRule_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&RoutingRule{}, &RoutingRuleList{})
+	SchemeBuilder.Register(&TeamRoutingRule{}, &TeamRoutingRuleList{})
 }
