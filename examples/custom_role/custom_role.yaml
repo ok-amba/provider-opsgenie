@@ -1,0 +1,31 @@
+# Terraform Docs
+# https://registry.terraform.io/providers/opsgenie/opsgenie/latest/docs/resources/custom_role
+
+apiVersion: opsgenie.upbound.io/v1alpha1
+kind: CustomRole
+metadata:
+  name: custom-role-name
+spec:
+  forProvider:
+    # Required, Name of the custom role.
+    roleName: Custom Role Name
+
+    # Required, The role from which this role has been derived.
+    # Allowed Values: "user", "observer", "stakeholder".
+    extendedRole: user
+
+    # Optional, The rights granted to this role.
+    # For allowed values please refer User Right Prerequisites
+    # https://docs.opsgenie.com/docs/custom-user-role-api#section-user-right-prerequisites
+    grantedRights:
+      - alert-delete
+
+    # Optional, The rights this role cannot have.
+    # For allowed values please refer User Right Prerequisites
+    # https://docs.opsgenie.com/docs/custom-user-role-api#section-user-right-prerequisites
+    disallowedRights:
+      - profile-edit
+      - contacts-edit
+
+  providerConfigRef:
+    name: default
