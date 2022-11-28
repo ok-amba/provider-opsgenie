@@ -56,6 +56,51 @@ func (mg *AlertPolicy) ResolveReferences(ctx context.Context, c client.Reader) e
 	return nil
 }
 
+// ResolveReferences of this ApiIntegration.
+func (mg *ApiIntegration) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OwnerTeamID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.OwnerTeamIDRef,
+		Selector:     mg.Spec.ForProvider.OwnerTeamIDSelector,
+		To: reference.To{
+			List:    &TeamList{},
+			Managed: &Team{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.OwnerTeamID")
+	}
+	mg.Spec.ForProvider.OwnerTeamID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.OwnerTeamIDRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Responders); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Responders[i3].ID),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.ForProvider.Responders[i3].IDRef,
+			Selector:     mg.Spec.ForProvider.Responders[i3].IDSelector,
+			To: reference.To{
+				List:    &TeamList{},
+				Managed: &Team{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Responders[i3].ID")
+		}
+		mg.Spec.ForProvider.Responders[i3].ID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Responders[i3].IDRef = rsp.ResolvedReference
+
+	}
+
+	return nil
+}
+
 // ResolveReferences of this Escalation.
 func (mg *Escalation) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
