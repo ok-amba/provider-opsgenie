@@ -14,6 +14,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"opsgenie_team_routing_rule": config.IdentifierFromProvider,
 	"opsgenie_alert_policy":      config.IdentifierFromProvider,
 	"opsgenie_escalation":        config.IdentifierFromProvider,
+	"opsgenie_api_integration":   config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the

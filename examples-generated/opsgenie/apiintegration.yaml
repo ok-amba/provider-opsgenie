@@ -1,0 +1,24 @@
+apiVersion: opsgenie.upbound.io/v1alpha1
+kind: ApiIntegration
+metadata:
+  annotations:
+    meta.upbound.io/example-id: opsgenie/v1alpha1/apiintegration
+  labels:
+    testing.upbound.io/example-name: example-api-integration
+  name: example-api-integration
+spec:
+  forProvider:
+    name: api-based-int
+    responders:
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: user
+      type: user
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: fahri
+      type: user
+    type: API
+
+---
+

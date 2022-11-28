@@ -11,6 +11,7 @@ import (
 	ujconfig "github.com/upbound/upjet/pkg/config"
 
 	"github.com/ok-amba/provider-opsgenie/config/alertpolicy"
+	"github.com/ok-amba/provider-opsgenie/config/apiintegration"
 	"github.com/ok-amba/provider-opsgenie/config/escalation"
 	"github.com/ok-amba/provider-opsgenie/config/team"
 	"github.com/ok-amba/provider-opsgenie/config/teamroutingrule"
@@ -41,6 +42,7 @@ func GetProvider() *ujconfig.Provider {
 		teamroutingrule.Configure,
 		alertpolicy.Configure,
 		escalation.Configure,
+		apiintegration.Configure,
 	} {
 		configure(pc)
 	}
