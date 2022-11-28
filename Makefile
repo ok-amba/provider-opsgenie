@@ -59,7 +59,7 @@ UPTEST_VERSION = v0.2.1
 # Setup Images
 
 REGISTRY_ORGS ?= xpkg.upbound.io/upbound
-IMAGES = $(PROJECT_NAME)
+IMAGES = $(PROJECT_NAME) $(PROJECT_NAME)-package
 -include build/makelib/imagelight.mk
 
 # ====================================================================================
