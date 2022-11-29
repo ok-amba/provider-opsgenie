@@ -15,6 +15,7 @@ import (
 	"github.com/ok-amba/provider-opsgenie/config/customrole"
 	"github.com/ok-amba/provider-opsgenie/config/emailintegration"
 	"github.com/ok-amba/provider-opsgenie/config/escalation"
+	"github.com/ok-amba/provider-opsgenie/config/heartbeat"
 	"github.com/ok-amba/provider-opsgenie/config/team"
 	"github.com/ok-amba/provider-opsgenie/config/teamroutingrule"
 )
@@ -47,6 +48,7 @@ func GetProvider() *ujconfig.Provider {
 		apiintegration.Configure,
 		customrole.Configure,
 		emailintegration.Configure,
+		heartbeat.Configure,
 	} {
 		configure(pc)
 	}

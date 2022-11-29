@@ -14,6 +14,7 @@ import (
 	customrole "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/customrole"
 	emailintegration "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/emailintegration"
 	escalation "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/escalation"
+	heartbeat "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/heartbeat"
 	team "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/team"
 	teamroutingrule "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/teamroutingrule"
 	providerconfig "github.com/ok-amba/provider-opsgenie/internal/controller/providerconfig"
@@ -28,6 +29,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		customrole.Setup,
 		emailintegration.Setup,
 		escalation.Setup,
+		heartbeat.Setup,
 		team.Setup,
 		teamroutingrule.Setup,
 		providerconfig.Setup,
