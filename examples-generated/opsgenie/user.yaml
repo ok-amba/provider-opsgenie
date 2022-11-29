@@ -1,0 +1,31 @@
+apiVersion: opsgenie.upbound.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: opsgenie/v1alpha1/user
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    fullName: Test User
+    locale: en_US
+    role: User
+    skypeUsername: skypename
+    tags:
+    - sre
+    - opsgenie
+    timezone: America/New_York
+    userAddress:
+    - city: City
+      country: Country
+      line: Line
+      state: State
+      zipcode: "998877"
+    userDetails:
+      key1: val1,val2
+      key2: val3,val4
+    username: user@domain.com
+
+---
+
