@@ -1,0 +1,54 @@
+# Terraform Docs
+# https://registry.terraform.io/providers/opsgenie/opsgenie/latest/docs/resources/email_integration
+
+apiVersion: opsgenie.upbound.io/v1alpha1
+kind: EmailIntegration
+metadata:
+  name: email-integration
+spec:
+  forProvider:
+    # Optional, This parameter is for specifying whether the policy will be enabled or not.
+    # Default: true
+    enabled: true
+
+    # Required, Name of the integration. Name must be unique for each integration.
+    name: email-integration-name
+
+    # Required, The username part of the email address. It must be unique for each integration.
+    emailUsername: some-user
+
+    # Optional, If enabled, the integration will ignore recipients sent in request payloads.
+    # Default: false.
+    ignoreRespondersFromPayload: false
+
+    # Optinal, If enabled, notifications that come from alerts will be suppressed.
+    #Default: false.
+    suppressNotifications: false
+
+    # Optinal, Owner team id of the integration.
+    ownerTeamIdRef:
+      name: team-name
+
+    # Optional, User, schedule, teams or escalation names to calculate which users will receive the notifications of the alert.
+    # Is mutually exclusive with ownerTeamIdRef.
+    responders:
+      - idRef:
+          name: team-name
+        # Must be lower case.
+        type: team
+
+      # Crossplane does not support cross-resource refernces of multiple types.
+      # Therefore it is not possible to reference below user, schedule or escalation, but you can statically add them.
+      # https://github.com/crossplane/crossplane-runtime/issues/350
+
+      # - id: <some-uuid>
+      #   type: user
+
+      # - id: <some-uuid>
+      #   type: schedule
+
+      # - id: <some-uuid>
+      #   type:  escalation
+
+  providerConfigRef:
+    name: default

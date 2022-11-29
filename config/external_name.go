@@ -16,6 +16,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"opsgenie_escalation":        config.IdentifierFromProvider,
 	"opsgenie_api_integration":   config.IdentifierFromProvider,
 	"opsgenie_custom_role":       config.IdentifierFromProvider,
+	"opsgenie_email_integration": config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
