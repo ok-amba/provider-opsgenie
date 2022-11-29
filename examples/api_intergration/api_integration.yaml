@@ -1,5 +1,5 @@
 # Terraform Docs
-# https://registry.terraform.io/providers/opsgenie/opsgenie/latest/docs/resources/team
+# https://registry.terraform.io/providers/opsgenie/opsgenie/latest/docs/resources/api_integration
 
 apiVersion: opsgenie.upbound.io/v1alpha1
 kind: ApiIntegration
