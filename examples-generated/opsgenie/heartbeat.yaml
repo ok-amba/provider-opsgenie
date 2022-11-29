@@ -1,0 +1,26 @@
+apiVersion: opsgenie.upbound.io/v1alpha1
+kind: Heartbeat
+metadata:
+  annotations:
+    meta.upbound.io/example-id: opsgenie/v1alpha1/heartbeat
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    alertMessage: Test
+    alertPriority: P3
+    alertTags:
+    - test
+    - fahri
+    description: test opsgenie heartbeat terraform
+    enabled: false
+    interval: 10
+    intervalUnit: minutes
+    name: genieheartbeat-test
+    ownerTeamIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test
+
+---
+

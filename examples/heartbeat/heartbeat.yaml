@@ -1,0 +1,44 @@
+# Terraform Docs
+# https://registry.terraform.io/providers/opsgenie/opsgenie/latest/docs/resources/heartbeat
+
+apiVersion: opsgenie.upbound.io/v1alpha1
+kind: Heartbeat
+metadata:
+  name: heartbeat-name
+spec:
+  forProvider:
+    # Optional, Enable/disable heartbeat monitoring.
+    # Default: true
+    enabled: true
+
+    # Required, Name of the heartbeat.
+    # Only alpha numeric characters, underscores (_), dashes (-) and periods (.) are allowed in name.
+    name: Heartbeat-name
+
+    # Optional, An optional description of the heartbeat
+    description: Heartbeat description
+
+    # Required, Interval specified as minutes, hours or days.
+    intervalUnit: minutes
+
+    # Required, Specifies how often a heartbeat message should be expected.
+    interval: 10
+
+    # Optional, Specifies the alert message for heartbeat expiration alert.
+    # If this is not provided, default alert message is "HeartbeatName is expired".
+    alertMessage: This is the alert message
+
+    # Optional, Specifies the alert priority for heartbeat expiration alert. If this is not provided, default priority is P3.
+    alertPriority: P3
+
+    # Optional, Specifies the alert tags for heartbeat expiration alert.
+    alertTags:
+      - some-tag
+      - another-tag
+
+    # Optional, Owner team reference of the heartbeat.
+    ownerTeamIdRef:
+      name: team-name
+
+  providerConfigRef:
+    name: default
