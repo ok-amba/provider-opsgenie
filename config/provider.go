@@ -18,6 +18,7 @@ import (
 	"github.com/ok-amba/provider-opsgenie/config/heartbeat"
 	"github.com/ok-amba/provider-opsgenie/config/team"
 	"github.com/ok-amba/provider-opsgenie/config/teamroutingrule"
+	"github.com/ok-amba/provider-opsgenie/config/user"
 )
 
 const (
@@ -49,6 +50,7 @@ func GetProvider() *ujconfig.Provider {
 		customrole.Configure,
 		emailintegration.Configure,
 		heartbeat.Configure,
+		user.Configure,
 	} {
 		configure(pc)
 	}

@@ -1,0 +1,45 @@
+# Terraform Docs
+# https://registry.terraform.io/providers/opsgenie/opsgenie/latest/docs/resources/user
+
+apiVersion: opsgenie.upbound.io/v1alpha1
+kind: User
+metadata:
+  name: john-smith
+spec:
+  forProvider:
+    # Required, the email address associated with this user.
+    username: johnsmith@example.org
+
+    # Required, the Full Name of the User.
+    fullName: John Smith
+
+    # Required, the Role assigned to the User, built-in or custom.
+    role: User
+
+    # Optional, local information, see https://support.atlassian.com/opsgenie/docs/supported-locale-ids/
+    locale: en_GB
+
+    # Optional, Skype username of the user.
+    skypeUsername: johnsmith
+
+    # Optional, a list of tags to be associated with the user.
+    tags:
+      - some-tag
+
+    # Optinal, Timezone information of the user, see https://support.atlassian.com/opsgenie/docs/supported-timezone-ids/
+    timezone: Europe/Copenhagen
+
+    # Optinal Address of the user. If chosen, all properties inside array object are required.
+    userAddress:
+      - city: some-city
+        country: some-country
+        line: some-line
+        state: some-state
+        zipcode: some-zipcode
+
+    # Optional, details about the user in form of key-values list.
+    userDetails:
+      is-awesome: yes-he-is
+
+  providerConfigRef:
+    name: default

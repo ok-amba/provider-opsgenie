@@ -17,6 +17,7 @@ import (
 	heartbeat "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/heartbeat"
 	team "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/team"
 	teamroutingrule "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/teamroutingrule"
+	user "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/user"
 	providerconfig "github.com/ok-amba/provider-opsgenie/internal/controller/providerconfig"
 )
 
@@ -32,6 +33,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		heartbeat.Setup,
 		team.Setup,
 		teamroutingrule.Setup,
+		user.Setup,
 		providerconfig.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
