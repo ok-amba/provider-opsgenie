@@ -35,6 +35,7 @@ img.build.shared:
 		--build-arg TERRAFORM_NATIVE_PROVIDER_BINARY=$(TERRAFORM_NATIVE_PROVIDER_BINARY) \
 		-t $(IMAGE) \
 		$(IMAGE_TEMP_DIR) || $(FAIL)
+	@docker tag $(IMAGE) "$(IMAGE):$(VERSION)" || $(FAIL)
 
 img.promote:
 	@$(INFO) Skipping image promotion from $(FROM_IMAGE) to $(TO_IMAGE)

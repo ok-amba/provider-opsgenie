@@ -200,3 +200,14 @@ crossplane.help:
 help-special: crossplane.help
 
 .PHONY: crossplane.help help-special
+
+
+# ====================================================================================
+# Custom targets
+
+push:
+	@$(INFO) Pushing images to registry
+	$(foreach i, $(IMAGES), docker push $(BUILD_REGISTRY)/$(i)-$(ARCH):$(VERSION);)
+	@$(OK) Done...
+
+.PHONY: push
