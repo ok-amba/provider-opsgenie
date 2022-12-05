@@ -12,9 +12,9 @@ include ../../../build/makelib/imagelight.mk
 # Targets
 
 img.build:
-	@$(INFO) docker build $(IMAGE)
+	@$(INFO) docker build $(IMAGE):$(VERSION)
 	@$(MAKE) BUILD_ARGS="--load" img.build.shared
-	@$(OK) docker build $(IMAGE)
+	@$(OK) Finished the docker build
 
 img.publish:
 	@$(INFO) Skipping image publish for $(IMAGE)
@@ -33,8 +33,7 @@ img.build.shared:
 		--build-arg TERRAFORM_PROVIDER_DOWNLOAD_NAME=$(TERRAFORM_PROVIDER_DOWNLOAD_NAME) \
 		--build-arg TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX=$(TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX) \
 		--build-arg TERRAFORM_NATIVE_PROVIDER_BINARY=$(TERRAFORM_NATIVE_PROVIDER_BINARY) \
-		-t $(IMAGE) \
-		$(IMAGE_TEMP_DIR) || $(FAIL)
+		-t $(IMAGE)	$(IMAGE_TEMP_DIR) || $(FAIL)
 	@docker tag $(IMAGE) "$(IMAGE):$(VERSION)" || $(FAIL)
 
 img.promote:
