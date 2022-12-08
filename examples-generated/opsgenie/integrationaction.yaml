@@ -1,0 +1,99 @@
+apiVersion: opsgenie.upbound.io/v1alpha1
+kind: IntegrationAction
+metadata:
+  annotations:
+    meta.upbound.io/example-id: opsgenie/v1alpha1/integrationaction
+  labels:
+    testing.upbound.io/example-name: test_action
+  name: test-action
+spec:
+  forProvider:
+    acknowledge:
+    - filter:
+      - conditions:
+        - expectedValue: TEST
+          field: message
+          not: true
+          operation: contains
+        - expectedValue: P5
+          field: priority
+          operation: equals
+        type: match-all-conditions
+      name: Auto-ack test alerts
+    addNote:
+    - filter:
+      - type: match-all
+      name: Add note to all alerts
+      note: Created from test integration
+    close:
+    - filter:
+      - conditions:
+        - expectedValue: P5
+          field: priority
+          operation: equals
+        - expectedValue: DEBUG
+          field: message
+          operation: contains
+        type: match-any-condition
+      name: Low priority alerts
+    create:
+    - alertActions:
+      - Runbook ID#342
+      alias: '{{alias}}'
+      description: '{{description}}'
+      entity: '{{entity}}'
+      filter:
+      - conditions:
+        - expectedValue: P1
+          field: priority
+          operation: equals
+        type: match-all-conditions
+      message: '{{message}}'
+      name: create action
+      note: '{{note}}'
+      responders:
+      - idSelector:
+          matchLabels:
+            testing.upbound.io/example-name: test
+        type: team
+      source: '{{source}}'
+      tags:
+      - CRITICAL
+      - SEV-0
+      user: Example-service
+    - filter:
+      - conditions:
+        - expectedValue: P2
+          field: priority
+          operation: equals
+        type: match-all-conditions
+      name: Create medium priority alerts
+      priority: P3
+      tags:
+      - SEVERE
+      - SEV-1
+    - customPriority: '{{message.substringAfter("[custom]")}}'
+      filter:
+      - conditions:
+        - expectedValue: P5
+          field: tags
+          operation: contains
+        - expectedValue: '[custom]'
+          field: message
+          operation: starts-with
+        type: match-all-conditions
+      name: Create alert with priority from message
+    ignore:
+    - filter:
+      - conditions:
+        - expectedValue: ignore
+          field: tags
+          operation: contains
+        type: match-all-conditions
+      name: Ignore alerts with ignore tag
+    integrationIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test
+
+---
+

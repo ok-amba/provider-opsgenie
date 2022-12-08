@@ -12,7 +12,7 @@ spec:
     enabled: true
 
     # Required, Name of the integration. Name must be unique for each integration.
-    name: opgenie-integration-name
+    name: opsgenie-integration-name
 
     # Optional, Type of the integration (API, Marid, Prometheus, etc).
     # The full list of options can be found here.

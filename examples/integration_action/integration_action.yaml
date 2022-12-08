@@ -1,0 +1,123 @@
+# Terraform Docs
+# https://registry.terraform.io/providers/opsgenie/opsgenie/latest/docs/resources/integration_action
+
+###################### DISCLAIMER ######################
+# The documentation on this resource is just dreadful  #
+# to say the least. Below examples are just copied     #
+# from the Terraform docs and are not tested. You can  #
+# find more useless documentation here:                #
+# https://docs.opsgenie.com/docs/integration-api       #
+########################################################
+
+apiVersion: opsgenie.upbound.io/v1alpha1
+kind: IntegrationAction
+metadata:
+  name: integration-action-name
+spec:
+  forProvider:
+    # Required, ID of the parent integration resource to bind to.
+    integrationIdRef:
+      name: some-integration-name
+
+    create:
+      # Required
+      - name: Create Action
+
+        # Optional
+        tags:
+          - CRITICAL
+          - SEV-0
+
+        # Optional
+        user: "Example-service"
+
+        # Optional, additional alert action note.
+        note: "{{note}}"
+
+        # Optional, An identifier that is used for alert deduplication.
+        # Default: {{alias}}.
+        alias: "{{alias}}"
+
+        # Optional, user defined field to specify source of action.
+        source: "{{source}}"
+
+        # Optional, Alert text limited to 130 characters.
+        message: "{{message}}"
+
+        # Optional, detailed description of the alert, anything that may not have fit in the message field.
+        description: "{{description}}"
+
+        # Optional, the entity the alert is related to.
+        entity: "{{entity}}"
+
+        # No clue.. Was on the Terraform example
+        alert_actions: ["Runbook ID#342"]
+
+        # Optional, Used to specify rules for matching alerts and the filter type.
+        # Please note that depending on the integration type the field names in the filter conditions are:
+        #
+        # SNS integration:
+        #   actions, alias, entity, Message, recipients, responders,
+        #   Subject, tags, teams, eventType, Timestamp, TopicArn.
+        #
+        # API integration:
+        #   message, alias, description, source, entity, tags, actions,
+        #   details, extra-properties, recipients, teams, priority, eventType.
+        #
+        # Email integration:
+        #   from_address, from_name, conversationSubject, subject
+        filter:
+          - type: match-all-conditions
+            conditions:
+              - field: priority
+                operation: equals
+                expected_value: P1
+
+        # Optional, User, schedule, teams or escalation names to calculate which users will receive the notifications of the alert.
+        responders:
+          - idRef:
+              name: team-name
+            # Must be lower case.
+            type: team
+
+          # Crossplane does not support cross-resource refernces of multiple types.
+          # Therefore it is not possible to reference below user, schedule or escalation, but you can statically add them.
+          # https://github.com/crossplane/crossplane-runtime/issues/350
+
+          # - id: <some-uuid>
+          #   type: user
+
+          # - id: <some-uuid>
+          #   type: schedule
+
+          # - id: <some-uuid>
+          #   type:  escalation
+
+    acknowledge:
+      - name: "create action"
+        note: "{{note}}"
+        filter:
+          - type: match-all-conditions
+            conditions:
+              - field: message
+                not: true
+                operation: contains
+                expected_value: TEST
+              - field: priority
+                operation: equals
+                expected_value: P5
+
+    add_note:
+      - name: Add note to all alerts
+        note: Created from test integration
+        filter:
+          - type: match-all
+
+    ignore:
+      - name: Ignore alerts with ignore tag
+        filter:
+          - type: match-all-conditions
+            conditions:
+              - field: tags
+                operation: contains
+                expected_value: ignore
