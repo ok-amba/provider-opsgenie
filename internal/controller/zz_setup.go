@@ -15,6 +15,7 @@ import (
 	emailintegration "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/emailintegration"
 	escalation "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/escalation"
 	heartbeat "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/heartbeat"
+	integrationaction "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/integrationaction"
 	team "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/team"
 	teamroutingrule "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/teamroutingrule"
 	user "github.com/ok-amba/provider-opsgenie/internal/controller/opsgenie/user"
@@ -31,6 +32,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		emailintegration.Setup,
 		escalation.Setup,
 		heartbeat.Setup,
+		integrationaction.Setup,
 		team.Setup,
 		teamroutingrule.Setup,
 		user.Setup,

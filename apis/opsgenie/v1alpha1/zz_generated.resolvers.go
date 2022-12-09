@@ -219,6 +219,52 @@ func (mg *Heartbeat) ResolveReferences(ctx context.Context, c client.Reader) err
 	return nil
 }
 
+// ResolveReferences of this IntegrationAction.
+func (mg *IntegrationAction) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Create); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Create[i3].Responders); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Create[i3].Responders[i4].ID),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.ForProvider.Create[i3].Responders[i4].IDRef,
+				Selector:     mg.Spec.ForProvider.Create[i3].Responders[i4].IDSelector,
+				To: reference.To{
+					List:    &TeamList{},
+					Managed: &Team{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Create[i3].Responders[i4].ID")
+			}
+			mg.Spec.ForProvider.Create[i3].Responders[i4].ID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Create[i3].Responders[i4].IDRef = rsp.ResolvedReference
+
+		}
+	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.IntegrationID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.IntegrationIDRef,
+		Selector:     mg.Spec.ForProvider.IntegrationIDSelector,
+		To: reference.To{
+			List:    &ApiIntegrationList{},
+			Managed: &ApiIntegration{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.IntegrationID")
+	}
+	mg.Spec.ForProvider.IntegrationID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.IntegrationIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this TeamRoutingRule.
 func (mg *TeamRoutingRule) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
